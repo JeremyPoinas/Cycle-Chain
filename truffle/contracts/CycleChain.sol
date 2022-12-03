@@ -42,6 +42,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
   event NftInstalledOnEquipment(uint _NFTid, uint _equipmentId);
   event NftRemovedFromEquipment(uint _NFTid, uint _equipmentId);
   event EquipmentCreated(uint _equipmentId);
+  event EquipmentDeleted(uint _equipmentId);
 
   constructor() ERC721("Component", "CC") {}
 
@@ -118,7 +119,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
   }
 
   /// @notice Create an equipment
-  /// @param _equipmentId NFT's ID
+  /// @param _equipmentId Equipment's ID
   function createEquipment(uint _equipmentId, EquipmentType _equipmentType) external onlyProducers {
     require(equipments[msg.sender][_equipmentId].isValue == false, "You already have this equipment.");
 
@@ -128,5 +129,15 @@ contract CycleChain is ERC721URIStorage, Ownable  {
 
     equipments[msg.sender][_equipmentId] = equipment;
     emit EquipmentCreated(_equipmentId);
+  }
+
+  /// @notice Delete an equipment
+  /// @param _equipmentId Equipment's ID
+  function deleteEquipment(uint _equipmentId) external onlyProducers {
+    require(equipments[msg.sender][_equipmentId].isValue == true, "You don't have this equipment.");
+
+    Equipment memory equipment;
+    equipments[msg.sender][_equipmentId] = equipment;
+    emit EquipmentDeleted(_equipmentId);
   }
 }

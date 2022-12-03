@@ -1,4 +1,4 @@
-const SimpleStorage = artifacts.require("CycleChain");
+const CycleChain = artifacts.require("CycleChain");
 
 contract('CycleChain', () => {
   it('should read newly written values', async() => {
