@@ -4,6 +4,7 @@ import { EthProvider } from "./contexts/EthContext";
 import EquipmentsGrid from "./components/Equipments-grid";
 import "./App.css";
 
+
 function App() {
   return (
     <EthProvider>
