@@ -11,21 +11,21 @@ function EquipmentsGrid() {
 
         <Grid container spacing={2}>
 
-            <Grid xs={2}>
+            <Grid xs={12} sm={6} md={3} lg={2}>
                 <EquipmentPreview
                 name="Grue ABC"
                 description="Super Grue"
                 img={grue1} />
             </Grid>
 
-            <Grid xs={2}>
+            <Grid  xs={12} sm={6} md={3} lg={2}>
                 <EquipmentPreview
                 name="Grue DEF"
                 description="Autre super Grue"
                 img={grue2} />
             </Grid>
 
-            <Grid xs={2}>
+            <Grid  xs={12} sm={6} md={3} lg={2}>
                 <EquipmentPreview
                 name="Grue GHI"
                 description="Dernière uper Grue"
