@@ -18,33 +18,33 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     bool isValue;
   }
 
-  // Equipment's ID => NFT's ID => is installed
-  mapping (uint => mapping (uint => bool)) componentsInstalled;
+  // Equipment's ID => Part's ID => is installed
+  mapping (uint => mapping (uint => bool)) partsInstalled;
 
   // Equipment's Owner => Equipment's ID => Equipment
   mapping (address => mapping (uint => Equipment)) equipments;
 
-  struct Component {
+  struct Part {
     uint equipmentId;
     bool isValue;
   }
 
-  // NFT's ID => Component
-  mapping (uint => Component) components;
+  // NFT's ID => Part
+  mapping (uint => Part) parts;
 
   // Address => is registered as a producer
   mapping (address => bool) producers;
 
   // List of events
-  event ComponentCreated(uint componentId);
-  event NFTCreatorRegistered(address creator);
-  event NFTCreatorRemoved(address creator);
-  event NftInstalledOnEquipment(uint _NFTid, uint _equipmentId);
-  event NftRemovedFromEquipment(uint _NFTid, uint _equipmentId);
+  event PartCreated(uint partId);
+  event PartCreatorRegistered(address creator);
+  event PartCreatorRemoved(address creator);
+  event PartInstalledOnEquipment(uint _PartId, uint _equipmentId);
+  event PartRemovedFromEquipment(uint _PartId, uint _equipmentId);
   event EquipmentCreated(uint _equipmentId);
   event EquipmentDeleted(uint _equipmentId);
 
-  constructor() ERC721("Component", "CC") {}
+  constructor() ERC721("Part", "CC") {}
 
   /// @notice Check if the msg.sender is an equipment producer
   modifier onlyProducers() {
@@ -52,70 +52,69 @@ contract CycleChain is ERC721URIStorage, Ownable  {
       _;
   }
 
-  /// @notice Create one component (NFT)
+  /// @notice Create one Part (NFT) for a producer
   /// @param _producer Address of the entity creating the NFT
   /// @return uint NFT's ID
-  function createComponent(address _producer, string memory _tokenURI)
+  function createPart(address _producer, string memory _tokenURI)
     public
+    onlyProducers
     returns (uint256)
   {
-    require(producers[_producer] == true, "You are not registered as a NFT Creator.");
-
     _tokenIds.increment();
 
     uint256 newItemId = _tokenIds.current();
     _mint(_producer, newItemId);
     _setTokenURI(newItemId, _tokenURI);
 
-    emit ComponentCreated(newItemId);
+    emit PartCreated(newItemId);
 
     return newItemId;
   }
 
-  /// @notice Register a new NFT creator
-  /// @param _producer Address of the entity that will be allowed to create a NFT
-  function registerNFTCreator(address _producer) external onlyOwner {
-    require(producers[_producer] == false, "This address is already registered as a NFT Creator.");
+  /// @notice Register a new Part creator
+  /// @param _producer Address of the entity that will be allowed to create a Part NFT
+  function registerPartCreator(address _producer) external onlyOwner {
+    require(producers[_producer] == false, "This address is already registered as a Part Creator.");
 
     producers[_producer] = true;
-    emit NFTCreatorRegistered(_producer);
+    emit PartCreatorRegistered(_producer);
   }
 
-  /// @notice Remove a NFT creator
-  /// @param _producer Address of the entity that will be fordidden to create a NFT
+  /// @notice Remove a Part creator
+  /// @param _producer Address of the entity that will be fordidden to create a Part NFT
   function removeNFTCreator(address _producer) external onlyOwner {
-    require(producers[_producer] == true, "This address is not registered as a NFT Creator.");
+    require(producers[_producer] == true, "This address is not registered as a Part Creator.");
 
     producers[_producer] = false;
-    emit NFTCreatorRemoved(_producer);
+    emit PartCreatorRemoved(_producer);
   }
 
   /// @notice Install a NFT on an equipment
-  /// @param _NFTid NFT's ID
-  /// @param _equipmentId NFT's ID
-  function installNftOnEquipment(uint _NFTid, uint _equipmentId) external {
-    require(ownerOf(_NFTid) == msg.sender, "You do not possess this component.");
+  /// @param _PartId Part's ID
+  /// @param _equipmentId Equipment's ID
+  function installPartOnEquipment(uint _PartId, uint _equipmentId) external {
+    require(ownerOf(_PartId) == msg.sender, "You do not possess this part.");
     require(equipments[msg.sender][_equipmentId].isValue == true, "You do not possess this equipment.");
-    require(components[_NFTid].equipmentId == 0, "This component is already installed on an equipment.");
+    require(parts[_PartId].equipmentId == 0, "This part is already installed on an equipment.");
 
-    componentsInstalled[_equipmentId][_NFTid] == true;
-    components[_NFTid].equipmentId = _equipmentId;
+    partsInstalled[_equipmentId][_PartId] == true;
+    parts[_PartId].equipmentId = _equipmentId;
 
-    emit NftInstalledOnEquipment(_NFTid, _equipmentId);
+    emit PartInstalledOnEquipment(_PartId, _equipmentId);
   }
 
   /// @notice Remove a NFT from an equipment
-  /// @param _NFTid NFT's ID
+  /// @param _PartId NFT's ID
   /// @param _equipmentId NFT's ID
-  function removeNftFromEquipment(uint _NFTid, uint _equipmentId) external {
-    require(ownerOf(_NFTid) == msg.sender, "You do not possess this component.");
+  function removeNftFromEquipment(uint _PartId, uint _equipmentId) external {
+    require(ownerOf(_PartId) == msg.sender, "You do not possess this part.");
     require(equipments[msg.sender][_equipmentId].isValue == true, "You do not possess this equipment.");
-    require(components[_NFTid].equipmentId != 0, "This component is not installed on an equipment.");
+    require(parts[_PartId].equipmentId != 0, "This part is not installed on an equipment.");
 
-    componentsInstalled[_equipmentId][_NFTid] == false;
-    components[_NFTid].equipmentId = 0;
+    partsInstalled[_equipmentId][_PartId] == false;
+    parts[_PartId].equipmentId = 0;
 
-    emit NftRemovedFromEquipment(_NFTid, _equipmentId);
+    emit PartRemovedFromEquipment(_PartId, _equipmentId);
   }
 
   /// @notice Create an equipment
