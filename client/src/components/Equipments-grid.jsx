@@ -6,9 +6,9 @@ import grue3 from "../images/grue3.png";
 import EquipmentPreview from "./Equipment-preview";
 
 
-function EquipmentsGrid(equipments) {
+function EquipmentsGrid() {
 
-    equipments = [
+    const equipments = [
         {name: "Grue ABC", description: "Super grue", img: grue1},
         {name: "Grue DEF", description: "Autre super grue", img: grue2},
         {name: "Grue GHI", description: "Dernière super grue", img: grue3}
