@@ -29,8 +29,8 @@ export const equipments = [
 
 export const equipmentsDetails = [
     {equipmentId: "62038", description: "Chantier Bouygues Grand Paris", photo: grue1},
-    {equipmentId: "01647", description: "Chantier Bouygues Grand Paris", photo: grue2},
-    {equipmentId: "36184", description: "Chantier Bouygues Grand Paris", photo: grue3},
+    {equipmentId: "01647", description: "Chantier village JO 2024", photo: grue2},
+    {equipmentId: "36184", description: "Chantier village JO 2024", photo: grue3},
     {equipmentId: "53985", description: "Chantier Bouygues Grand Paris", photo: bulldozer1},
     {equipmentId: "51947", description: "Chantier Bouygues Grand Paris", photo: tractopelle1},
 ]

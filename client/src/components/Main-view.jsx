@@ -4,10 +4,17 @@ import Typography from '@mui/material/Typography';
 import PartsTable from "./Parts-list";
 import EquipmentsGrid from "./Equipments-grid";
 import { Divider } from "@mui/material";
+import EquipmentDetails from "./Equipment-details";
 
 export default function MainView() {
     return (
         <Box sx={{ width: '100%', maxWidth: 2000, p:5 }}>
+
+            <Box sx={{ m:5 }}>
+                <EquipmentDetails />
+            </Box>
+
+            <Divider />
 
             <Box sx={{ m:5 }}>
                 <Typography variant="h4" gutterBottom>Équipements</Typography>
@@ -17,7 +24,7 @@ export default function MainView() {
             <Divider />
 
             <Box sx={{ m:5 }}>
-                <Typography variant="h4" gutterBottom>Pièces</Typography>
+                <Typography variant="h4" gutterBottom>Pièces certifiées</Typography>
                 <PartsTable />
             </Box>
             

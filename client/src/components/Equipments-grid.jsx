@@ -1,6 +1,5 @@
 import React from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EquipmentPreview from "./Equipment-preview";
