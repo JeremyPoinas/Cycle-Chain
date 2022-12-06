@@ -7,8 +7,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-
-import { parts } from "./Mock-data";
+import Button from "@mui/material/Button";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Stack } from "@mui/system";
 
 const columns = [
     { id: 'category', label: 'Catégorie', minWidth: 100 },
@@ -18,8 +20,17 @@ const columns = [
 ];
 
 
+function CreateBuyButtons() {
+  return (
+    <Stack direction="row" spacing={2} p={2}>
+        <Button variant="contained" endIcon={<AddCircleIcon />}>Créer</Button>
+        <Button variant="contained" endIcon={<ShoppingCartIcon />}>Acheter</Button>
+    </Stack>
+  )
+}
 
-export default function PartsTable({parts}) {
+
+function PartsTable({parts}) {
 
   const rows = parts;
 
@@ -39,6 +50,8 @@ export default function PartsTable({parts}) {
     <Paper sx={{ width: '90%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
+
+
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -52,6 +65,9 @@ export default function PartsTable({parts}) {
               ))}
             </TableRow>
           </TableHead>
+
+
+
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -72,8 +88,12 @@ export default function PartsTable({parts}) {
                 );
               })}
           </TableBody>
+
+
         </Table>
       </TableContainer>
+
+
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
@@ -85,4 +105,13 @@ export default function PartsTable({parts}) {
       />
     </Paper>
   );
+}
+
+export default function PartsTableWithButtons({parts}) {
+  return (
+    <Stack>
+      <PartsTable parts={parts} />
+      <CreateBuyButtons />
+    </Stack>
+  )
 }

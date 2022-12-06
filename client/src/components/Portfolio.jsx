@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import PartsTable from "./Parts-list";
 import EquipmentsGrid from "./Equipments-grid";
 import { Divider } from "@mui/material";
+import { parts } from "./Mock-data";
 
 
 export default function Portfolio() {
@@ -19,7 +20,7 @@ export default function Portfolio() {
 
             <Box sx={{ m:5 }}>
                 <Typography variant="h4" gutterBottom>Pièces certifiées</Typography>
-                {/*<PartsTable />*/}
+                <PartsTable parts={parts}/>
             </Box>
             
         </Box>

@@ -46,7 +46,7 @@ function EquipmentSummary({equipmentId}) {
     )
 }
 
-function Operations({equipmentId}) {
+function EquipmentOperations({equipmentId}) {
 
     const ops = operations.filter(op => op.equipmentId === equipmentId);
 
@@ -80,7 +80,7 @@ export default function EquipmentDetails({equipmentId}) {
             <Divider />
 
             <Stack direction="row" justifyContent="space-between">
-                <Operations equipmentId={equipmentId}/>
+                <EquipmentOperations equipmentId={equipmentId}/>
                 <Parts equipmentId={equipmentId}/>
             </Stack>
 

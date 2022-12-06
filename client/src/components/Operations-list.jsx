@@ -25,15 +25,8 @@ function OperationItem({title, details}) {
 
 export default function OperationsList({operations}) {
 
-    {/** 
-    const operations = [
-        {title: "Installation pièce 1", details: "01/01/2022"},
-        {title: "Entretien pièce 2", details: "12/09/2022"},
-        {title: "Désinstallation pièce 1", details: "01/01/2022"}
-    ]*/}
-
     return (
-        <List>
+        <List dense>
             {operations.map((operation, index) => (
                 <OperationItem key={index} title={operation.description} details={operation.date} />
             ))}
