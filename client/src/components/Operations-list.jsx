@@ -6,7 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import ListItemButton from "@mui/material/ListItemButton";
 //import Divider from "@mui/material/Divider";
-import Box from "@mui/material/Box";
+//import Box from "@mui/material/Box";
 
 
 function OperationItem({title, details}) {
@@ -25,9 +25,9 @@ function OperationItem({title, details}) {
     )
 }
 
-export default function OperationsList(operations) {
+export default function OperationsList() {
 
-    operations = [
+    const operations = [
         {title: "Installation pièce 1", details: "01/01/2022"},
         {title: "Entretien pièce 2", details: "12/09/2022"},
         {title: "Désinstallation pièce 1", details: "01/01/2022"}
@@ -36,7 +36,7 @@ export default function OperationsList(operations) {
     return (
         <List>
             {operations.map((operation, index) => (
-                    <OperationItem key={index} title={operation.title} details={operation.details} />
+                <OperationItem key={index} title={operation.title} details={operation.details} />
             ))}
         </List>
     )

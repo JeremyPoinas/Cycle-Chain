@@ -5,11 +5,13 @@ import {
 import { EthProvider } from "./contexts/EthContext";
 import Header from "./components/Header";
 //import Footer from "./components/Footer";
+import MainView from "./components/Main-view";
 import EquipmentsGrid from "./components/Equipments-grid";
 import EquipmentDetail from "./components/Equipment-detail";
 import Page404 from "./components/Page404";
 import About from "./components/About";
 import "./App.css";
+
 
 
 function App() {
@@ -27,7 +29,9 @@ function App() {
     <EthProvider>
       <div id="App" >
         <div className="container">
+
             <Header />
+            
             <Routes>
               <Route path="/" element={<About />} />
               <Route path="/my-portfolio" element={<EquipmentsGrid />} />
@@ -35,6 +39,9 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="*" element={<Page404 />} />
             </Routes>
+            
+            <MainView />
+
         </div>
       </div>
     </EthProvider>
