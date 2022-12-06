@@ -1,36 +1,92 @@
 import React from "react";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import ConstructionIcon from '@mui/icons-material/Construction';
 import ListItemButton from "@mui/material/ListItemButton";
+import Button from "@mui/material/Button";
+import CreateIcon from '@mui/icons-material/Create';
+import { Stack } from "@mui/system";
+import { Chip, Paper } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import { parts, equipments } from "./Mock-data";
 
 
-function OperationItem({title, details}) {
+function EquipmentOperationItem({operation}) {
+
+    const part = parts.find(p => p.id === operation.partId);
+    
     return (
-        <ListItem disablePadding>
-            <ListItemButton>
+            <ListItem disablePadding>
+                <ListItemButton>
 
-                <ListItemIcon>
-                    <ConstructionIcon />
-                </ListItemIcon>
+                    <Stack direction="row" alignItems="center" spacing={1}>
 
-                <ListItemText primary={title} secondary={details}/>
+                        <Chip label={operation.date} />
+                        <Typography variant="body1">{operation.category+" "+part.category}</Typography>
+                        <Typography variant="body2" color="text.secondary">{part.manufacturer +" ("+part.reference+")"}</Typography>
 
-            </ListItemButton>
-        </ListItem>
+                    </Stack>
+
+                </ListItemButton>
+            </ListItem>
     )
 }
 
-export default function OperationsList({operations}) {
+function PartOperationItem({operation}) {
+
+    const equipment = equipments.find(e => e.id === operation.equipmentId)
+    
+    return (
+            <ListItem disablePadding>
+                <ListItemButton>
+
+                    <Stack direction="row" alignItems="center" spacing={1}>
+
+                        <Chip label={operation.date} />
+                        <Typography variant="body1">{operation.category+" dans "+equipment.category+" "+equipment.manufacturer}</Typography>
+                        <Typography variant="body2" color="text.secondary">{" ("+equipment.model+")"}</Typography>
+
+                    </Stack>
+
+                </ListItemButton>
+            </ListItem>
+    )
+}
+
+export function EquipmentOperationsList({operations}) {
 
     return (
-        <List dense>
-            {operations.map((operation, index) => (
-                <OperationItem key={index} title={operation.description} details={operation.date} />
-            ))}
-        </List>
-    )
+            <Stack alignItems="flex-start" spacing={2}>
 
+                <Paper>
+                    <List dense>
+                        {operations.map((operation, index) => (
+                            <EquipmentOperationItem key={index} operation={operation} />
+                        ))}
+                    </List>
+                </Paper>
+
+                <Button variant="contained" endIcon={<CreateIcon />}>Ajouter</Button>
+
+            </Stack>
+    )
+}
+
+
+export function PartOperationsList({operations}) {
+
+    return (
+            <Stack alignItems="flex-start" spacing={2}>
+
+                <Paper>
+                    <List dense>
+                        {operations.map((operation, index) => (
+                            <PartOperationItem key={index} operation={operation} />
+                        ))}
+                    </List>
+                </Paper>
+
+                <Button variant="contained" endIcon={<CreateIcon />}>Ajouter</Button>
+
+            </Stack>
+    )
 }

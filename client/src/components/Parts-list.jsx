@@ -22,7 +22,7 @@ const columns = [
 
 function CreateBuyButtons() {
   return (
-    <Stack direction="row" spacing={2} p={2}>
+    <Stack direction="row" spacing={2}>
         <Button variant="contained" endIcon={<AddCircleIcon />}>Créer</Button>
         <Button variant="contained" endIcon={<ShoppingCartIcon />}>Acheter</Button>
     </Stack>
@@ -109,7 +109,7 @@ function PartsTable({parts}) {
 
 export default function PartsTableWithButtons({parts}) {
   return (
-    <Stack>
+    <Stack spacing={2}>
       <PartsTable parts={parts} />
       <CreateBuyButtons />
     </Stack>

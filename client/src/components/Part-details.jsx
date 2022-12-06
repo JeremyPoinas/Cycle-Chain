@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardMedia, Divider } from "@mui/material";
 import { Stack } from "@mui/system";
 import Typography from "@mui/material/Typography";
-import OperationsList from "./Operations-list";
+import { PartOperationsList } from "./Operations-list";
 import PartsTable from "./Parts-list";
 
 import { parts, equipments, equipmentsDetails, operations, assemblies } from "./Mock-data";
@@ -36,13 +36,12 @@ function PartSummary({partId}) {
 
 function PartOperations({partId}) {
 
-    //const ops = operations.filter(op => op.equipmentId === equipmentId);
     const ops = operations.filter(op => op.partId === partId);
 
     return (
         <Stack>
             <Typography variant="h4" gutterBottom>Opérations</Typography>
-            <OperationsList operations={ops}/>
+            <PartOperationsList operations={ops}/>
         </Stack>
     )
 }
