@@ -8,26 +8,16 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
+import { parts } from "./Mock-data";
+
 const columns = [
     { id: 'category', label: 'Catégorie', minWidth: 100 },
     { id: 'manufacturer', label: 'Fabricant', minWidth: 100 },
-    { id: 'model', label: 'Modèle', minWidth: 100 },
-    { id: 'serialNumber', label: 'Numéro de série', minWidth: 100 }
+    { id: 'reference', label: 'Référence', minWidth: 100 },
+    { id: 'id', label: 'Numéro de série', minWidth: 100 }
 ];
 
-const rows = [
-    {category: "Transmission", manufacturer: "Dae Gun", model: "TMS36", serialNumber: "238387438"},
-    {category: "Transmission", manufacturer: "Dae Gun", model: "TMS36", serialNumber: "679273548"},
-    {category: "Transmission", manufacturer: "Dae Gun", model: "TMSX30", serialNumber: "094539273"},
-    {category: "Vérin", manufacturer: "CWA", model: "V900", serialNumber: "198354672"},
-    {category: "Vérin", manufacturer: "CWA", model: "V900", serialNumber: "198453728"},
-    {category: "Vérin", manufacturer: "CWA", model: "Vt43", serialNumber: "198254637"},
-    {category: "Vérin", manufacturer: "CWA", model: "Vt56", serialNumber: "198453627"},
-    {category: "Boulon", manufacturer: "Dae Gun", model: "M320", serialNumber: "185364782"},
-    {category: "Boulon", manufacturer: "Dae Gun", model: "M320", serialNumber: "673298364"},
-    {category: "Boulon", manufacturer: "Dae Gun", model: "M25", serialNumber: "678172546"},
-    {category: "Boulon", manufacturer: "Dae Gun", model: "M100", serialNumber: "908153728"},
-]
+const rows = parts;
 
 export default function PartsTable() {
   const [page, setPage] = React.useState(0);

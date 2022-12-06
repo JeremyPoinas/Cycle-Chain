@@ -5,7 +5,7 @@ import bulldozer1 from      "../images/bulldozer1.jpg";
 import tractopelle1 from    "../images/tractopelle1.jpg";
 
 
-const parts = [
+export const parts = [
     {category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36",  id: "19385"},
     {category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36",  id: "79276"},
     {category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMX30",  id: "72649"},
@@ -19,7 +19,7 @@ const parts = [
     {category: "Boulon",        manufacturer: "M25",        reference:"TMS36",  id: "91548"}
 ]
 
-const equipments = [
+export const equipments = [
     {category: "Grue",          manufacturer: "Caterpillar",    model: "GR900C",    id: "62038"},
     {category: "Grue",          manufacturer: "Komatsu",        model: "KOM2",      id: "01647"},
     {category: "Grue",          manufacturer: "JCB",            model: "aJCB2017",  id: "36184"},
@@ -27,7 +27,7 @@ const equipments = [
     {category: "Tractopelle",   manufacturer: "Caterpillar",    model: "TracEx",    id: "51947"}
 ]
 
-const equipmentsDetails = [
+export const equipmentsDetails = [
     {equipmentId: "62038", description: "Chantier Bouygues Grand Paris", photo: grue1},
     {equipmentId: "01647", description: "Chantier Bouygues Grand Paris", photo: grue2},
     {equipmentId: "36184", description: "Chantier Bouygues Grand Paris", photo: grue3},
@@ -35,7 +35,7 @@ const equipmentsDetails = [
     {equipmentId: "51947", description: "Chantier Bouygues Grand Paris", photo: tractopelle1},
 ]
 
-const assemblies = [
+export const assemblies = [
     {equipmentId: "62038", parts: ["19385", "09154", "98455"]},
     {equipmentId: "01647", parts: ["79276", "18734", "99814"]},
     {equipmentId: "36184", parts: ["72649", "19845", "98143"]},
@@ -43,7 +43,7 @@ const assemblies = [
     {equipmentId: "51947", parts: ["91548"]}
 ]
 
-const operations = [
+export const operations = [
     {category: "install", partId: "19385", equipmentId: "62038", description: "Installation de la pièce dans l'équipement", date:"01/01/2022"},
     {category: "install", partId: "79276", equipmentId: "01647", description: "Installation de la pièce dans l'équipement", date:"02/02/2022"},
     {category: "install", partId: "72649", equipmentId: "36184", description: "Installation de la pièce dans l'équipement", date:"03/03/2022"},

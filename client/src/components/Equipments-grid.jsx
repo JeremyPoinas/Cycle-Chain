@@ -1,29 +1,41 @@
 import React from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import grue1 from "../images/grue1.jpg";
-import grue2 from "../images/grue2.jpg";
-import grue3 from "../images/grue3.png";
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EquipmentPreview from "./Equipment-preview";
+
+import { equipments, equipmentsDetails } from "./Mock-data";
 
 
 function EquipmentsGrid() {
 
-    const equipments = [
-        {name: "Grue ABC", description: "Super grue", img: grue1},
-        {name: "Grue DEF", description: "Autre super grue", img: grue2},
-        {name: "Grue GHI", description: "Dernière super grue", img: grue3}
-    ]
-
     return (
-        <Grid container spacing={2}>
-            {equipments.map((equipment, index) => (
-                <Grid key={index} xs={12} sm={6} md={3} lg={2}>
-                    <EquipmentPreview
-                    name={equipment.name}
-                    description={equipment.description}
-                    img={equipment.img} />
-                </Grid>
-            ))}
+        <Grid container spacing={2} alignItems="center">
+
+            {equipments.map((equipment) => {
+
+                const id = equipment.id;
+                const eqDetails = equipmentsDetails.find( eq => eq.equipmentId === id);
+                const photo = eqDetails.photo;
+                const description = eqDetails.description;
+
+                return (
+                    <Grid key={id} xs={12} sm={6} md={3} lg={2}>
+                        <EquipmentPreview
+                        name={equipment.category + " " + equipment.manufacturer}
+                        description={description}
+                        img={photo} />
+                    </Grid>
+                )
+            })}
+
+            <Grid key={123} xs={12} sm={6} md={3} lg={2}>
+                <IconButton aria-label="ajouter">
+                    <AddCircleIcon fontSize="large"/>
+                </IconButton>
+            </Grid>
+
         </Grid>
     )
 }
