@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import IconButton from '@mui/material/IconButton';
+import Button from "@mui/material/Button";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EquipmentPreview from "./Equipment-preview";
 
@@ -30,9 +30,9 @@ function EquipmentsGrid() {
             })}
 
             <Grid key={123} xs={12} sm={6} md={3} lg={2}>
-                <IconButton aria-label="ajouter">
-                    <AddCircleIcon fontSize="large"/>
-                </IconButton>
+                <Button variant="contained" endIcon={<AddCircleIcon />}>
+                    Ajouter
+                </Button>
             </Grid>
 
         </Grid>

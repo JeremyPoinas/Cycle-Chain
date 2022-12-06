@@ -7,8 +7,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-
-import { parts } from "./Mock-data";
+import Button from "@mui/material/Button";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Stack } from "@mui/system";
 
 const columns = [
     { id: 'category', label: 'Catégorie', minWidth: 100 },
@@ -17,9 +19,21 @@ const columns = [
     { id: 'id', label: 'Numéro de série', minWidth: 100 }
 ];
 
-const rows = parts;
 
-export default function PartsTable() {
+function CreateBuyButtons() {
+  return (
+    <Stack direction="row" spacing={2}>
+        <Button variant="contained" endIcon={<AddCircleIcon />}>Créer</Button>
+        <Button variant="contained" endIcon={<ShoppingCartIcon />}>Acheter</Button>
+    </Stack>
+  )
+}
+
+
+function PartsTable({parts}) {
+
+  const rows = parts;
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -36,6 +50,8 @@ export default function PartsTable() {
     <Paper sx={{ width: '90%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
+
+
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -49,6 +65,9 @@ export default function PartsTable() {
               ))}
             </TableRow>
           </TableHead>
+
+
+
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -69,8 +88,12 @@ export default function PartsTable() {
                 );
               })}
           </TableBody>
+
+
         </Table>
       </TableContainer>
+
+
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
@@ -82,4 +105,13 @@ export default function PartsTable() {
       />
     </Paper>
   );
+}
+
+export default function PartsTableWithButtons({parts}) {
+  return (
+    <Stack spacing={2}>
+      <PartsTable parts={parts} />
+      <CreateBuyButtons />
+    </Stack>
+  )
 }

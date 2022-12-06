@@ -44,16 +44,16 @@ export const assemblies = [
 ]
 
 export const operations = [
-    {category: "install", partId: "19385", equipmentId: "62038", description: "Installation de la pièce dans l'équipement", date:"01/01/2022"},
-    {category: "install", partId: "79276", equipmentId: "01647", description: "Installation de la pièce dans l'équipement", date:"02/02/2022"},
-    {category: "install", partId: "72649", equipmentId: "36184", description: "Installation de la pièce dans l'équipement", date:"03/03/2022"},
-    {category: "install", partId: "09154", equipmentId: "62038", description: "Installation de la pièce dans l'équipement", date:"04/04/2022"},
-    {category: "install", partId: "18734", equipmentId: "01647", description: "Installation de la pièce dans l'équipement", date:"05/05/2022"},
-    {category: "install", partId: "19845", equipmentId: "36184", description: "Installation de la pièce dans l'équipement", date:"06/06/2022"},
-    {category: "install", partId: "78594", equipmentId: "53985", description: "Installation de la pièce dans l'équipement", date:"07/07/2022"},
-    {category: "install", partId: "98455", equipmentId: "62038", description: "Installation de la pièce dans l'équipement", date:"08/08/2022"},
-    {category: "install", partId: "99814", equipmentId: "01647", description: "Installation de la pièce dans l'équipement", date:"09/09/2022"},
-    {category: "install", partId: "98143", equipmentId: "36184", description: "Installation de la pièce dans l'équipement", date:"10/10/2022"},
-    {category: "install", partId: "91548", equipmentId: "51947", description: "Installation de la pièce dans l'équipement", date:"11/11/2022"},
-    {category: "maintenance", partId: "19385", equipmentId: "62038", description: "Révision de la pièce", date:"12/09/2022"}
+    {category: "Installation", partId: "19385", equipmentId: "62038", description: "Installation de la pièce dans l'équipement", date:"01/01/2022"},
+    {category: "Installation", partId: "79276", equipmentId: "01647", description: "Installation de la pièce dans l'équipement", date:"02/02/2022"},
+    {category: "Installation", partId: "72649", equipmentId: "36184", description: "Installation de la pièce dans l'équipement", date:"03/03/2022"},
+    {category: "Installation", partId: "09154", equipmentId: "62038", description: "Installation de la pièce dans l'équipement", date:"04/04/2022"},
+    {category: "Installation", partId: "18734", equipmentId: "01647", description: "Installation de la pièce dans l'équipement", date:"05/05/2022"},
+    {category: "Installation", partId: "19845", equipmentId: "36184", description: "Installation de la pièce dans l'équipement", date:"06/06/2022"},
+    {category: "Installation", partId: "78594", equipmentId: "53985", description: "Installation de la pièce dans l'équipement", date:"07/07/2022"},
+    {category: "Installation", partId: "98455", equipmentId: "62038", description: "Installation de la pièce dans l'équipement", date:"08/08/2022"},
+    {category: "Installation", partId: "99814", equipmentId: "01647", description: "Installation de la pièce dans l'équipement", date:"09/09/2022"},
+    {category: "Installation", partId: "98143", equipmentId: "36184", description: "Installation de la pièce dans l'équipement", date:"10/10/2022"},
+    {category: "Installation", partId: "91548", equipmentId: "51947", description: "Installation de la pièce dans l'équipement", date:"11/11/2022"},
+    {category: "Maintenance", partId: "19385", equipmentId: "62038", description: "Révision de la pièce", date:"12/09/2022"}
 ]
