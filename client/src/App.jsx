@@ -34,7 +34,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Portfolio />} />
               <Route path="/my-portfolio" element={<Portfolio />} />
-              <Route path="/update-equipment" element={<EquipmentDetails />} />
+              <Route path="/update-equipment" element={<EquipmentDetails equipmentId={"62038"}/>} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<Page404 />} />
             </Routes>

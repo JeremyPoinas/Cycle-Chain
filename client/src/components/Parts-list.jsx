@@ -17,9 +17,12 @@ const columns = [
     { id: 'id', label: 'Numéro de série', minWidth: 100 }
 ];
 
-const rows = parts;
 
-export default function PartsTable() {
+
+export default function PartsTable({parts}) {
+
+  const rows = parts;
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 

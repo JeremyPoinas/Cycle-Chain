@@ -3,18 +3,16 @@ import { Card, CardMedia, Divider } from "@mui/material";
 import { Stack } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import OperationsList from "./Operations-list";
-import PartsList from "./Parts-list";
+import PartsTable from "./Parts-list";
+
+import { parts, equipments, equipmentsDetails, operations, assemblies } from "./Mock-data";
 
 
-import { equipments, equipmentsDetails, assemblies } from "./Mock-data";
 
+function EquipmentSummary({equipmentId}) {
 
-
-function EquipmentSummary() {
-
-    const equipment = equipments[0];
-    const id = equipment.id;
-    const equipmentDetails = equipmentsDetails.find( eq => eq.equipmentId === id);
+    const equipment = equipments.find(eq => eq.id === equipmentId);
+    const equipmentDetails = equipmentsDetails.find( eq => eq.equipmentId === equipmentId);
 
     return (
         <Stack direction="row" spacing={2}>
@@ -48,39 +46,44 @@ function EquipmentSummary() {
     )
 }
 
-function Operations() {
+function Operations({equipmentId}) {
+
+    const ops = operations.filter(op => op.equipmentId === equipmentId);
+
     return (
         <Stack>
             <Typography variant="h4" gutterBottom>Opérations</Typography>
-            <OperationsList />
+            <OperationsList operations={ops}/>
         </Stack>
     )
 }
 
-function Parts() {
+function Parts({equipmentId}) {
+
+    const partsIds = assemblies.find(assem => assem.equipmentId === equipmentId).parts;
+    const partsArray = parts.filter( p => partsIds.includes(p.id) )
+
     return (
         <Stack>
             <Typography variant="h4" gutterBottom>Pièces certifiées</Typography>
-            <PartsList />
+            <PartsTable parts={partsArray} />
         </Stack>
     )
 }
 
-export default function EquipmentDetails() {
-
+export default function EquipmentDetails({equipmentId}) {
     return (
-
         <Stack p={5} spacing={5}>
 
-            <EquipmentSummary />
+            <EquipmentSummary equipmentId={equipmentId}/>
+
             <Divider />
+
             <Stack direction="row" justifyContent="space-between">
-                <Operations />
-                <Parts />
+                <Operations equipmentId={equipmentId}/>
+                <Parts equipmentId={equipmentId}/>
             </Stack>
 
         </Stack>
-        
     )
-
 }

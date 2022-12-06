@@ -19,7 +19,7 @@ export default function Portfolio() {
 
             <Box sx={{ m:5 }}>
                 <Typography variant="h4" gutterBottom>Pièces certifiées</Typography>
-                <PartsTable />
+                {/*<PartsTable />*/}
             </Box>
             
         </Box>
