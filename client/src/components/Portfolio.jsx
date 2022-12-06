@@ -4,17 +4,11 @@ import Typography from '@mui/material/Typography';
 import PartsTable from "./Parts-list";
 import EquipmentsGrid from "./Equipments-grid";
 import { Divider } from "@mui/material";
-import EquipmentDetails from "./Equipment-details";
 
-export default function MainView() {
+
+export default function Portfolio() {
     return (
         <Box sx={{ width: '100%', maxWidth: 2000, p:5 }}>
-
-            <Box sx={{ m:5 }}>
-                <EquipmentDetails />
-            </Box>
-
-            <Divider />
 
             <Box sx={{ m:5 }}>
                 <Typography variant="h4" gutterBottom>Équipements</Typography>

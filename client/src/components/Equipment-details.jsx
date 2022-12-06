@@ -1,11 +1,16 @@
-import { Card, CardMedia } from "@mui/material";
+import React from "react";
+import { Card, CardMedia, Divider } from "@mui/material";
 import { Stack } from "@mui/system";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import OperationsList from "./Operations-list";
+import PartsList from "./Parts-list";
+
 
 import { equipments, equipmentsDetails, assemblies } from "./Mock-data";
 
-export default function EquipmentDetails() {
+
+
+function EquipmentSummary() {
 
     const equipment = equipments[0];
     const id = equipment.id;
@@ -26,15 +31,56 @@ export default function EquipmentDetails() {
 
             <Stack>
                 <Typography variant="h4">
-                    {equipment.category}
+                    {equipment.category + " " + equipment.manufacturer}
                 </Typography>
 
                 <Typography variant="body" color="text.secondary">
-                    {equipment.manufacturer}
+                    Catégorie : {equipment.category}<br></br>
+                    Fabricant : {equipment.manufacturer}<br></br>
+                    Modèle : {equipment.model}<br></br>
+                    Numéro de série : {equipment.id}<br></br>
+                    Détails : {equipmentDetails.description}
                 </Typography>
             </Stack>
 
         </Stack>
+
+    )
+}
+
+function Operations() {
+    return (
+        <Stack>
+            <Typography variant="h4" gutterBottom>Opérations</Typography>
+            <OperationsList />
+        </Stack>
+    )
+}
+
+function Parts() {
+    return (
+        <Stack>
+            <Typography variant="h4" gutterBottom>Pièces certifiées</Typography>
+            <PartsList />
+        </Stack>
+    )
+}
+
+export default function EquipmentDetails() {
+
+    return (
+
+        <Stack p={5} spacing={5}>
+
+            <EquipmentSummary />
+            <Divider />
+            <Stack direction="row" justifyContent="space-between">
+                <Operations />
+                <Parts />
+            </Stack>
+
+        </Stack>
+        
     )
 
 }
