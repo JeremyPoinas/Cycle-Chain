@@ -6,25 +6,27 @@ import tractopelle1 from    "../images/tractopelle1.jpg";
 
 
 export const parts = [
-    {category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36",  id: "19385"},
-    {category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36",  id: "79276"},
-    {category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMX30",  id: "72649"},
-    {category: "Vérin",         manufacturer: "CWA",        reference:"V900",   id: "09154"},
-    {category: "Vérin",         manufacturer: "CWA",        reference:"V900",   id: "18734"},
-    {category: "Vérin",         manufacturer: "CWA",        reference:"Vt43",   id: "19845"},
-    {category: "Vérin",         manufacturer: "CWA",        reference:"Vt67",   id: "78594"},
-    {category: "Boulon",        manufacturer: "M100",       reference:"TMS36",  id: "98455"},
-    {category: "Boulon",        manufacturer: "M320",       reference:"TMS36",  id: "99814"},
-    {category: "Boulon",        manufacturer: "M320",       reference:"TMS36",  id: "98143"},
-    {category: "Boulon",        manufacturer: "M25",        reference:"TMS36",  id: "91548"}
+    {id: "19385", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36", sold:true},
+    {id: "79276", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36", sold:true},
+    {id: "72649", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMX30", sold:true},
+    {id: "09154", category: "Vérin",         manufacturer: "CWA",        reference:"V900",  sold:true},
+    {id: "18734", category: "Vérin",         manufacturer: "CWA",        reference:"V900",  sold:true},
+    {id: "19845", category: "Vérin",         manufacturer: "CWA",        reference:"Vt43",  sold:true},
+    {id: "78594", category: "Vérin",         manufacturer: "CWA",        reference:"Vt67",  sold:true},
+    {id: "63948", category: "Vérin",         manufacturer: "CWA",        reference:"Vt22",  sold:false},
+    {id: "98455", category: "Boulon",        manufacturer: "M100",       reference:"TMS36", sold:true},
+    {id: "99814", category: "Boulon",        manufacturer: "M320",       reference:"TMS36", sold:true},
+    {id: "98143", category: "Boulon",        manufacturer: "M320",       reference:"TMS36", sold:true},
+    {id: "91548", category: "Boulon",        manufacturer: "M25",        reference:"TMS36", sold:true}
 ]
 
+
 export const equipments = [
-    {category: "Grue",          manufacturer: "Caterpillar",    model: "GR900C",    id: "62038"},
-    {category: "Grue",          manufacturer: "Komatsu",        model: "KOM2",      id: "01647"},
-    {category: "Grue",          manufacturer: "JCB",            model: "aJCB2017",  id: "36184"},
-    {category: "Bulldozer",     manufacturer: "Manitou",        model: "443b",      id: "53985"},
-    {category: "Tractopelle",   manufacturer: "Caterpillar",    model: "TracEx",    id: "51947"}
+    {id: "62038", category: "Grue",          manufacturer: "Caterpillar",    model: "GR900C"},
+    {id: "01647", category: "Grue",          manufacturer: "Komatsu",        model: "KOM2"},
+    {id: "36184", category: "Grue",          manufacturer: "JCB",            model: "aJCB2017"},
+    {id: "53985", category: "Bulldozer",     manufacturer: "Manitou",        model: "443b"},
+    {id: "51947", category: "Tractopelle",   manufacturer: "Caterpillar",    model: "TracEx"}
 ]
 
 export const equipmentsDetails = [
