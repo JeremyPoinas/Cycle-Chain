@@ -4,6 +4,7 @@ import { Stack } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import { EquipmentOperationsList } from "./Operations-list";
 import PartsTable from "./Parts-list";
+import { useParams } from "react-router-dom";
 
 import { parts, equipments, equipmentsDetails, operations, assemblies } from "./Mock-data";
 
@@ -71,7 +72,10 @@ function Parts({equipmentId}) {
     )
 }
 
-export default function EquipmentDetails({equipmentId}) {
+export default function EquipmentDetails() {
+
+    let { equipmentId } = useParams();
+
     return (
         <Stack p={5} spacing={5}>
 
