@@ -9,7 +9,7 @@ import Portfolio from "./components/Portfolio";
 import EquipmentDetails from './components/Equipment-details';
 import EquipmentCreation from './components/Equipment-creation';
 import PartDetails from './components/Part-details';
-import PartsBuying from './components/Parts-bying';
+import PartsBuying from './components/Parts-buying';
 import Page404 from "./components/Page404";
 import About from "./components/About";
 import "./App.css";

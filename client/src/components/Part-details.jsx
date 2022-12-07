@@ -1,11 +1,10 @@
 import React from "react";
-import { Card, CardMedia, Divider } from "@mui/material";
+import { Divider } from "@mui/material";
 import { Stack } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import { PartOperationsList } from "./Operations-list";
-import PartsTable from "./Parts-list";
 
-import { parts, equipments, equipmentsDetails, operations, assemblies } from "./Mock-data";
+import { parts, operations } from "./Mock-data";
 
 
 
