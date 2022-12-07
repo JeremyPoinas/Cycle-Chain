@@ -33,7 +33,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
   mapping (uint => Part) parts;
 
   // Address => is registered as a producer
-  mapping (address => bool) producers;
+  mapping (address => bool) public producers;
 
   // List of events
   event PartCreated(uint partId);
@@ -82,7 +82,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
 
   /// @notice Remove a Part creator
   /// @param _producer Address of the entity that will be fordidden to create a Part NFT
-  function removeNFTCreator(address _producer) external onlyOwner {
+  function removePartCreator(address _producer) external onlyOwner {
     require(producers[_producer] == true, "This address is not registered as a Part Creator.");
 
     producers[_producer] = false;
