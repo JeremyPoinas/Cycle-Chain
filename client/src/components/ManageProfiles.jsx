@@ -56,7 +56,7 @@ const ManageProfiles = () => {
           id="outlined-basic"
           label="Type address.."
           variant="outlined"
-          value={producerToAdd}
+          value={producerToRemove}
           onChange={handleRemoveProducerAddressChange}
         />
       </Stack>
