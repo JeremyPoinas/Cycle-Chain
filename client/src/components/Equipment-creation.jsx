@@ -31,32 +31,5 @@ export default function EquipmentCreation() {
             </Stack>
 
         </Paper>
-
     )
 }
-
-
-
-
-
-{/** 
-        <Box
-            component="form" autoComplete="off"
-            sx={{ display:"flex", flexDirection:"column", '& .MuiTextField-root': { m: 1, width: '35ch' }}}>
-
-                <TextField required id="manufacturer" label="Constructeur"/>
-                <TextField required id="model" label="Modèle"/>
-                <TextField required id="serialNumber" label="Numéro de série"/>
-                <TextField
-                    required
-                    id="details"
-                    label="Détails"
-                    multiline
-                    rows={4}
-                />
-
-                <Button variant="contained">
-                    Créer
-                </Button>
-        </Box>
-        */}
