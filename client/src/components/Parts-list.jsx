@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Stack } from "@mui/system";
+import { Link } from "react-router-dom";
 
 const columns = [
     { id: 'category', label: 'Catégorie', minWidth: 100 },
@@ -23,8 +24,13 @@ const columns = [
 function CreateBuyButtons() {
   return (
     <Stack direction="row" spacing={2}>
+
         <Button variant="contained" endIcon={<AddCircleIcon />}>Créer</Button>
-        <Button variant="contained" endIcon={<ShoppingCartIcon />}>Acheter</Button>
+
+        <Link to="/parts-buying" style={{ textDecoration: 'none' }}>
+          <Button variant="contained" endIcon={<ShoppingCartIcon />}>Acheter</Button>
+        </Link>
+        
     </Stack>
   )
 }
@@ -73,18 +79,20 @@ function PartsTable({parts}) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
+
+                    <TableRow button component={Link} to={"/part/"+row.id} hover role="checkbox" tabIndex={-1} key={row.code}>
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.format && typeof value === 'number'
+                              ? column.format(value)
+                              : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+
                 );
               })}
           </TableBody>

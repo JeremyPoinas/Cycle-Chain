@@ -3,6 +3,7 @@ import { Divider } from "@mui/material";
 import { Stack } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import { PartOperationsList } from "./Operations-list";
+import { useParams } from "react-router-dom";
 
 import { parts, operations } from "./Mock-data";
 
@@ -45,7 +46,10 @@ function PartOperations({partId}) {
     )
 }
 
-export default function PartDetails({partId}) {
+export default function PartDetails() {
+
+    let { partId } = useParams();
+
     return (
         <Stack p={5} spacing={5}>
 

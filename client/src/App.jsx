@@ -44,7 +44,8 @@ function App() {
               <Route path="/my-portfolio" element={<Portfolio />} />
               <Route path="/update-equipment" element={<EquipmentDetails equipmentId={"62038"}/>} />
               <Route path="/create-equipment" element={<EquipmentCreation/>} />
-              <Route path="/part-details" element={<PartDetails partId={"19385"}/>} />
+              <Route path="/equipment/:equipmentId" element={<EquipmentDetails/>} />
+              <Route path="/part/:partId" element={<PartDetails/>} />
               <Route path="/parts-buying" element={<PartsBuying/>} />
               <Route path="/about" element={<About />} />
               {isOwner && <Route path="/manage-profiles" element={<ManageProfiles />} />}
