@@ -7,11 +7,13 @@ import Header from "./components/Header";
 //import Footer from "./components/Footer";
 import Portfolio from "./components/Portfolio";
 import EquipmentDetails from './components/Equipment-details';
+import EquipmentCreation from './components/Equipment-creation';
 import PartDetails from './components/Part-details';
 import Page404 from "./components/Page404";
 import About from "./components/About";
 import ManageProfiles from "./components/ManageProfiles";
 import "./App.css";
+
 
 
 
@@ -28,20 +30,25 @@ function App() {
   }, [location]);
 
   return (
-    <div id="App" >
-      <div className="container">
+  
+    <EthProvider>
+      <div id="App" >
+        <div className="container">
 
-          <Header />
-          
-          <Routes>
-            <Route path="/" element={<Portfolio />} />
-            <Route path="/my-portfolio" element={<Portfolio />} />
-            <Route path="/update-equipment" element={<EquipmentDetails equipmentId={"62038"}/>} />
-            <Route path="/part-details" element={<PartDetails partId={"19385"}/>} />
-            <Route path="/about" element={<About />} />
-            {isOwner && <Route path="/manage-profiles" element={<ManageProfiles />} />}
-            <Route path="*" element={<Page404 />} />
-          </Routes>
+            <Header />
+            
+            <Routes>
+              <Route path="/" element={<Portfolio />} />
+              <Route path="/my-portfolio" element={<Portfolio />} />
+              <Route path="/update-equipment" element={<EquipmentDetails equipmentId={"62038"}/>} />
+              <Route path="/create-equipment" element={<EquipmentCreation/>} />
+              <Route path="/part-details" element={<PartDetails partId={"19385"}/>} />
+              <Route path="/about" element={<About />} />
+              {isOwner && <Route path="/manage-profiles" element={<ManageProfiles />} />}
+              <Route path="*" element={<Page404 />} />
+            </Routes>
+
+        </div>
       </div>
     </div>
   );
