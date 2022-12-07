@@ -13,16 +13,19 @@ function EthProvider({ children }) {
         const accounts = await web3.eth.requestAccounts();
         const networkID = await web3.eth.net.getId();
         const { abi } = artifact;
-        let address, contract;
+        let address, contract, owner, isOwner, isProducer;
         try {
           address = artifact.networks[networkID].address;
           contract = new web3.eth.Contract(abi, address);
+          owner = await contract?.methods.owner().call();
+          if (accounts && owner) isOwner = (owner === accounts[0]);
+          isProducer = await contract?.methods.producers(accounts[0]).call();
         } catch (err) {
           console.error(err);
         }
         dispatch({
           type: actions.init,
-          data: { artifact, web3, accounts, networkID, contract }
+          data: { artifact, web3, accounts, networkID, contract, isOwner, isProducer }
         });
       }
     }, []);

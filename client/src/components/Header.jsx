@@ -16,13 +16,10 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 function Header() {
-    const { state: { accounts } } = useEth();
+    const { state: { accounts, isOwner, isProducer } } = useEth();
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [pages, setPages] = useState(['About']);
-
-    const pagesForClient = ['explore', 'my portfolio', 'update equiment', 'about'];
-    const pagesForProducer = ['explore', 'my portfolio', 'create parts','update equiment', 'about'];
     const settings = ['Profile', 'Logout'];
 
     const handleOpenNavMenu = (event) => {
@@ -41,13 +38,20 @@ function Header() {
     };
 
     useEffect(() => {
-      if (accounts && accounts.length > 0) {
+      if (isOwner) {
+        setPages(['manage profiles']);
+      }
+      else if (isProducer) {
+        setPages(['explore', 'my portfolio', 'update equipment', 'parts', 'about']);
+      }
+      else if (accounts && !isOwner && !isProducer) {
         setPages(['explore', 'my portfolio', 'update equipment', 'about']);
       }
-      else if (!accounts || accounts.length === 0) {
+      else if (!accounts) {
         setPages(['about']);
       }
-    }, [accounts]);
+      console.log(isOwner, isProducer);
+    }, [accounts, isOwner, isProducer]);
 
     return (
       <AppBar position="static">
@@ -129,7 +133,7 @@ function Header() {
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
-                <NavLink  to={`/${page.replaceAll(' ', '-')}`} style={{ textDecoration: 'none' }}>
+                <NavLink key={page}  to={`/${page.replaceAll(' ', '-')}`} style={{ textDecoration: 'none' }}>
                   <Button
                     key={page}
                     onClick={handleCloseNavMenu}

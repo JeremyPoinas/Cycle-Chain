@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import {
   Routes, Route, useLocation,
 } from 'react-router-dom';
-import { EthProvider } from "./contexts/EthContext";
+import useEth from "./contexts/EthContext/useEth";
 import Header from "./components/Header";
 //import Footer from "./components/Footer";
 import Portfolio from "./components/Portfolio";
@@ -11,12 +11,14 @@ import EquipmentCreation from './components/Equipment-creation';
 import PartDetails from './components/Part-details';
 import Page404 from "./components/Page404";
 import About from "./components/About";
+import ManageProfiles from "./components/ManageProfiles";
 import "./App.css";
 
 
 
 
 function App() {
+  const { state: { isOwner, isProducer } } = useEth();
   const location = useLocation();
 
   useEffect(() => {
@@ -28,6 +30,7 @@ function App() {
   }, [location]);
 
   return (
+  
     <EthProvider>
       <div id="App" >
         <div className="container">
@@ -41,12 +44,13 @@ function App() {
               <Route path="/create-equipment" element={<EquipmentCreation/>} />
               <Route path="/part-details" element={<PartDetails partId={"19385"}/>} />
               <Route path="/about" element={<About />} />
+              {isOwner && <Route path="/manage-profiles" element={<ManageProfiles />} />}
               <Route path="*" element={<Page404 />} />
             </Routes>
 
         </div>
       </div>
-    </EthProvider>
+    </div>
   );
 }
 
