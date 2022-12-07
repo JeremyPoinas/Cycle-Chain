@@ -17,7 +17,6 @@ import "./App.css";
 
 
 
-//test
 
 function App() {
   const { state: { isOwner, isProducer } } = useEth();
@@ -33,7 +32,7 @@ function App() {
 
   return (
   
-    <EthProvider>
+    <useEth>
       <div id="App" >
         <div className="container">
 
@@ -54,7 +53,7 @@ function App() {
 
         </div>
       </div>
-    </div>
+    </useEth>
   );
 }
 
