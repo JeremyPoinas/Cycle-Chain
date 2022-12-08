@@ -19,7 +19,7 @@ import "./App.css";
 
 
 function App() {
-  const { state: { isOwner, isProducer } } = useEth();
+  const { state: { isOwner } } = useEth();
   const location = useLocation();
 
   useEffect(() => {
@@ -31,29 +31,23 @@ function App() {
   }, [location]);
 
   return (
-  
-    <useEth>
-      <div id="App" >
-        <div className="container">
-
-            <Header />
-            
-            <Routes>
-              <Route path="/" element={<Portfolio />} />
-              <Route path="/my-portfolio" element={<Portfolio />} />
-              <Route path="/update-equipment" element={<EquipmentDetails equipmentId={"62038"}/>} />
-              <Route path="/create-equipment" element={<EquipmentCreation/>} />
-              <Route path="/equipment/:equipmentId" element={<EquipmentDetails/>} />
-              <Route path="/part/:partId" element={<PartDetails/>} />
-              <Route path="/parts-buying" element={<PartsBuying/>} />
-              <Route path="/about" element={<About />} />
-              {isOwner && <Route path="/manage-profiles" element={<ManageProfiles />} />}
-              <Route path="*" element={<Page404 />} />
-            </Routes>
-
-        </div>
+    <div id="App" >
+      <div className="container">
+          <Header />
+          <Routes>
+            <Route path="/" element={<Portfolio />} />
+            <Route path="/my-portfolio" element={<Portfolio />} />
+            <Route path="/update-equipment" element={<EquipmentDetails equipmentId={"62038"}/>} />
+            <Route path="/create-equipment" element={<EquipmentCreation/>} />
+            <Route path="/equipment/:equipmentId" element={<EquipmentDetails/>} />
+            <Route path="/part/:partId" element={<PartDetails/>} />
+            <Route path="/parts-buying" element={<PartsBuying/>} />
+            <Route path="/about" element={<About />} />
+            {isOwner && <Route path="/manage-profiles" element={<ManageProfiles />} />}
+            <Route path="*" element={<Page404 />} />
+          </Routes>
       </div>
-    </useEth>
+    </div>
   );
 }
 

@@ -27,6 +27,8 @@ contract CycleChain is ERC721URIStorage, Ownable  {
   struct Part {
     uint equipmentId;
     bool isValue;
+    bool isListed;
+    uint listedPrice;
   }
 
   // NFT's ID => Part
@@ -39,10 +41,12 @@ contract CycleChain is ERC721URIStorage, Ownable  {
   event PartCreated(uint partId);
   event PartCreatorRegistered(address creator);
   event PartCreatorRemoved(address creator);
-  event PartInstalledOnEquipment(uint _PartId, uint _equipmentId);
-  event PartRemovedFromEquipment(uint _PartId, uint _equipmentId);
-  event EquipmentCreated(uint _equipmentId);
-  event EquipmentDeleted(uint _equipmentId);
+  event PartInstalledOnEquipment(uint partId, uint equipmentId);
+  event PartRemovedFromEquipment(uint partId, uint equipmentId);
+  event EquipmentCreated(uint equipmentId);
+  event EquipmentDeleted(uint equipmentId);
+  event partListed(uint partId, uint price);
+  event partDelisted(uint partId);
 
   constructor() ERC721("Part", "CC") {}
 
@@ -52,6 +56,16 @@ contract CycleChain is ERC721URIStorage, Ownable  {
       _;
   }
 
+  // ::::::::::::: GETTERS ::::::::::::: //
+
+  function getListingPrice(uint _partId) public view returns (uint256) {
+    require(parts[_partId].isValue == true, "This part does not exist");
+
+    return parts[_partId].listedPrice;
+  }
+
+  // ::::::::::::: FUNCTIONS ::::::::::::: //
+
   /// @notice Create one Part (NFT) for a producer
   /// @param _producer Address of the entity creating the NFT
   /// @return uint NFT's ID
@@ -60,6 +74,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     onlyProducers
     returns (uint256)
   {
+    require(_producer != address(0), "ERC721 cannot be minted to the zero address");
     _tokenIds.increment();
 
     uint256 newItemId = _tokenIds.current();
@@ -106,7 +121,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
   /// @notice Remove a NFT from an equipment
   /// @param _PartId NFT's ID
   /// @param _equipmentId NFT's ID
-  function removeNftFromEquipment(uint _PartId, uint _equipmentId) external {
+  function removePartFromEquipment(uint _PartId, uint _equipmentId) external {
     require(ownerOf(_PartId) == msg.sender, "You do not possess this part.");
     require(equipments[msg.sender][_equipmentId].isValue == true, "You do not possess this equipment.");
     require(parts[_PartId].equipmentId != 0, "This part is not installed on an equipment.");
@@ -138,5 +153,53 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     Equipment memory equipment;
     equipments[msg.sender][_equipmentId] = equipment;
     emit EquipmentDeleted(_equipmentId);
+  }
+
+  /// @notice List a part
+  /// @param _partId Part's ID
+  /// @param _price Part's price
+  function listPart(uint _partId, uint _price) external {
+    require(msg.sender == this.ownerOf(_partId), "You don't possess this part.");
+    require(parts[_partId].isListed == false, "This part is already listed.");
+
+    parts[_partId].isListed = true;
+    parts[_partId].listedPrice = _price;
+    emit partListed(_partId, _price);
+  }
+
+  /// @notice Delist a part
+  /// @param _partId Part's ID
+  function delistPart(uint _partId) external {
+    require(msg.sender == this.ownerOf(_partId), "You don't possess this part.");
+    require(parts[_partId].isListed == true, "This part is not listed.");
+
+    parts[_partId].isListed = true;
+    parts[_partId].listedPrice = 0;
+    emit partDelisted(_partId);
+  }
+
+  /// @notice Update the listing price
+  /// @param _partId Part's ID
+  /// @param _price Part's price
+  function updateListingPrice(uint _partId, uint _price) public {
+    require(msg.sender == this.ownerOf(_partId), "You don't possess this part.");
+    require(parts[_partId].isListed == true, "This part is not listed.");
+
+    parts[_partId].listedPrice = _price;
+    emit partListed(_partId, _price);
+  }
+
+  /// @notice Buy a part at market price
+  /// @param _partId Part's ID
+  function marketBuyPart(uint256 _partId) public payable {
+    uint listedPrice = parts[_partId].listedPrice;
+    require(parts[_partId].isListed == true, "This part is not listed.");
+    require(msg.value == listedPrice);
+
+    address payable owner = payable(this.ownerOf(_partId));
+    this.safeTransferFrom(owner, msg.sender, _partId);
+    payable(owner).transfer(listedPrice);
+    parts[_partId].isListed = false;
+    parts[_partId].listedPrice = 0;
   }
 }

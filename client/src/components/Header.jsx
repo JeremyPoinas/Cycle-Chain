@@ -50,7 +50,6 @@ function Header() {
       else if (!accounts) {
         setPages(['about']);
       }
-      console.log(isOwner, isProducer);
     }, [accounts, isOwner, isProducer]);
 
     return (
@@ -107,7 +106,7 @@ function Header() {
               >
                 {pages.map((page) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                    <Typography textAlign="center">{page.toUpperCase()}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
