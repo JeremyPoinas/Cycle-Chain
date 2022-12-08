@@ -81,6 +81,8 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     _mint(_producer, newItemId);
     _setTokenURI(newItemId, _tokenURI);
 
+    parts[newItemId].isValue = true;
+
     emit PartCreated(newItemId);
 
     return newItemId;
@@ -173,7 +175,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     require(msg.sender == this.ownerOf(_partId), "You don't possess this part.");
     require(parts[_partId].isListed == true, "This part is not listed.");
 
-    parts[_partId].isListed = true;
+    parts[_partId].isListed = false;
     parts[_partId].listedPrice = 0;
     emit partDelisted(_partId);
   }
@@ -194,7 +196,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
   function marketBuyPart(uint256 _partId) public payable {
     uint listedPrice = parts[_partId].listedPrice;
     require(parts[_partId].isListed == true, "This part is not listed.");
-    require(msg.value == listedPrice);
+    require(msg.value == listedPrice, "Message value is not equal to listed price");
 
     address payable owner = payable(this.ownerOf(_partId));
     this.safeTransferFrom(owner, msg.sender, _partId);
