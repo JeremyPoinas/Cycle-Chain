@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,7 +12,6 @@ import Button from "@mui/material/Button";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Stack } from "@mui/system";
-import { Link } from "react-router-dom";
 
 const columns = [
     { id: 'category', label: 'Catégorie', minWidth: 100 },
@@ -21,10 +21,10 @@ const columns = [
 ];
 
 
-function CreateBuyButtons() {
+function CreateBuyButtons() {  
   return (
     <Stack direction="row" spacing={2}>
-        <Button variant="contained" endIcon={<AddCircleIcon />}>Create a new part</Button>
+        <Button variant="contained" endIcon={<AddCircleIcon />}>Install a part</Button>
         <Link to="/parts-buying" style={{ textDecoration: 'none' }}>
           <Button variant="contained" endIcon={<ShoppingCartIcon />}>Buy a part</Button>
         </Link>

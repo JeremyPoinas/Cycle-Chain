@@ -6,18 +6,18 @@ import tractopelle1 from    "../images/tractopelle1.jpg";
 
 
 export const parts = [
-    {id: "19385", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36", forSale: false},
-    {id: "79276", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36", forSale: false},
-    {id: "72649", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMX30", forSale: false},
-    {id: "09154", category: "Vérin",         manufacturer: "CWA",        reference:"V900",  forSale: false},
-    {id: "18734", category: "Vérin",         manufacturer: "CWA",        reference:"V900",  forSale: false},
-    {id: "19845", category: "Vérin",         manufacturer: "CWA",        reference:"Vt43",  forSale: false},
-    {id: "78594", category: "Vérin",         manufacturer: "CWA",        reference:"Vt67",  forSale: false},
-    {id: "63948", category: "Vérin",         manufacturer: "CWA",        reference:"Vt22",  forSale: true},
-    {id: "98455", category: "Boulon",        manufacturer: "M100",       reference:"TMS36", forSale: false},
-    {id: "99814", category: "Boulon",        manufacturer: "M320",       reference:"TMS36", forSale: false},
-    {id: "98143", category: "Boulon",        manufacturer: "M320",       reference:"TMS36", forSale: false},
-    {id: "91548", category: "Boulon",        manufacturer: "M25",        reference:"TMS36", forSale: false}
+    {id: "1",     category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36", isListed: true, listedPrice: 100},
+    {id: "79276", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36", isListed: true, listedPrice: 0},
+    {id: "72649", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMX30", isListed: true, listedPrice: 0},
+    {id: "09154", category: "Vérin",         manufacturer: "CWA",        reference:"V900",  isListed: true, listedPrice: 0},
+    {id: "18734", category: "Vérin",         manufacturer: "CWA",        reference:"V900",  isListed: true, listedPrice: 0},
+    {id: "19845", category: "Vérin",         manufacturer: "CWA",        reference:"Vt43",  isListed: true, listedPrice: 0},
+    {id: "78594", category: "Vérin",         manufacturer: "CWA",        reference:"Vt67",  isListed: true, listedPrice: 0},
+    {id: "63948", category: "Vérin",         manufacturer: "CWA",        reference:"Vt22",  isListed: false, listedPrice: 0},
+    {id: "98455", category: "Boulon",        manufacturer: "M100",       reference:"TMS36", isListed: true, listedPrice: 0},
+    {id: "99814", category: "Boulon",        manufacturer: "M320",       reference:"TMS36", isListed: true, listedPrice: 0},
+    {id: "98143", category: "Boulon",        manufacturer: "M320",       reference:"TMS36", isListed: true, listedPrice: 0},
+    {id: "91548", category: "Boulon",        manufacturer: "M25",        reference:"TMS36", isListed: true, listedPrice: 0}
 ]
 
 
@@ -39,7 +39,7 @@ export const equipmentsDetails = [
 ]
 
 export const assemblies = [
-    {equipmentId: "62038", parts: ["19385", "09154", "98455"]},
+    {equipmentId: "62038", parts: ["1", "09154", "98455"]},
     {equipmentId: "01647", parts: ["79276", "18734", "99814"]},
     {equipmentId: "36184", parts: ["72649", "19845", "98143"]},
     {equipmentId: "53985", parts: ["78594"]},
@@ -47,7 +47,7 @@ export const assemblies = [
 ]
 
 export const operations = [
-    {category: "Installation", partId: "19385", equipmentId: "62038", description: "Installation de la pièce dans l'équipement", date:"01/01/2022"},
+    {category: "Installation", partId: "1", equipmentId: "62038", description: "Installation de la pièce dans l'équipement", date:"01/01/2022"},
     {category: "Installation", partId: "79276", equipmentId: "01647", description: "Installation de la pièce dans l'équipement", date:"02/02/2022"},
     {category: "Installation", partId: "72649", equipmentId: "36184", description: "Installation de la pièce dans l'équipement", date:"03/03/2022"},
     {category: "Installation", partId: "09154", equipmentId: "62038", description: "Installation de la pièce dans l'équipement", date:"04/04/2022"},
@@ -58,5 +58,5 @@ export const operations = [
     {category: "Installation", partId: "99814", equipmentId: "01647", description: "Installation de la pièce dans l'équipement", date:"09/09/2022"},
     {category: "Installation", partId: "98143", equipmentId: "36184", description: "Installation de la pièce dans l'équipement", date:"10/10/2022"},
     {category: "Installation", partId: "91548", equipmentId: "51947", description: "Installation de la pièce dans l'équipement", date:"11/11/2022"},
-    {category: "Maintenance", partId: "19385", equipmentId: "62038", description: "Révision de la pièce", date:"12/09/2022"}
+    {category: "Maintenance", partId: "1", equipmentId: "62038", description: "Révision de la pièce", date:"12/09/2022"}
 ]

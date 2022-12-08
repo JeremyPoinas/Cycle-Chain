@@ -12,6 +12,7 @@ import PartDetails from './components/Part-details';
 import PartsBuying from './components/Parts-buying';
 import Page404 from "./components/Page404";
 import About from "./components/About";
+import Parts from "./components/Parts";
 import ManageProfiles from "./components/ManageProfiles";
 import "./App.css";
 
@@ -40,8 +41,9 @@ function App() {
             <Route path="/update-equipment" element={<EquipmentDetails equipmentId={"62038"}/>} />
             <Route path="/create-equipment" element={<EquipmentCreation/>} />
             <Route path="/equipment/:equipmentId" element={<EquipmentDetails/>} />
+            <Route path="/parts" element={<Parts />} />
             <Route path="/part/:partId" element={<PartDetails/>} />
-            <Route path="/parts-buying" element={<PartsBuying/>} />
+            <Route path="/explore" element={<PartsBuying/>} />
             <Route path="/about" element={<About />} />
             {isOwner && <Route path="/manage-profiles" element={<ManageProfiles />} />}
             <Route path="*" element={<Page404 />} />
