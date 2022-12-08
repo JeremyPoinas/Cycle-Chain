@@ -5,11 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
 
-import { Link, Routes, Route } from 'react-router-dom';
-import EquipmentDetails from "./Equipment-details";
-
-
-function EquipmentPreview({name, description, img}) {
+function EquipmentPreview({manufacturer, category, owner, description, img}) {
 
     return (
         <Card sx={{ maxWidth: 345 }}>
@@ -23,8 +19,17 @@ function EquipmentPreview({name, description, img}) {
                     image={img}
                     />
                     <CardContent>
+
+                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                            {manufacturer}
+                        </Typography>
+
                         <Typography gutterBottom variant="h6" component="div">
-                            {name}
+                            {category}
+                        </Typography>
+
+                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                            {"Proriétaire : "+owner}
                         </Typography>
 
                         <Typography variant="body" color="text.secondary">
