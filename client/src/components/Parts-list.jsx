@@ -23,14 +23,14 @@ const columns = [
 function CreateBuyButtons() {
   return (
     <Stack direction="row" spacing={2}>
-        <Button variant="contained" endIcon={<AddCircleIcon />}>Créer</Button>
-        <Button variant="contained" endIcon={<ShoppingCartIcon />}>Acheter</Button>
+        <Button variant="contained" endIcon={<AddCircleIcon />}>Create a new part</Button>
+        <Button variant="contained" endIcon={<ShoppingCartIcon />}>Buy a part</Button>
     </Stack>
   )
 }
 
 
-function PartsTable({parts}) {
+export function PartsTable({parts}) {
 
   const rows = parts;
 

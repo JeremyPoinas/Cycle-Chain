@@ -10,6 +10,7 @@ import EquipmentDetails from './components/Equipment-details';
 import PartDetails from './components/Part-details';
 import Page404 from "./components/Page404";
 import About from "./components/About";
+import Parts from "./components/Parts";
 import ManageProfiles from "./components/ManageProfiles";
 import "./App.css";
 
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Portfolio />} />
             <Route path="/my-portfolio" element={<Portfolio />} />
+            <Route path="/parts" element={<Parts />} />
             <Route path="/update-equipment" element={<EquipmentDetails equipmentId={"62038"}/>} />
             <Route path="/part-details" element={<PartDetails partId={"19385"}/>} />
             <Route path="/about" element={<About />} />

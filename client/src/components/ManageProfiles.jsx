@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -56,7 +56,7 @@ const ManageProfiles = () => {
           id="outlined-basic"
           label="Type address.."
           variant="outlined"
-          value={producerToAdd}
+          value={producerToRemove}
           onChange={handleRemoveProducerAddressChange}
         />
       </Stack>
