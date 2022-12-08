@@ -20,12 +20,12 @@ function EquipmentSummary({equipmentId}) {
 
             <Stack>
                 <Typography variant="h4">
-                    {equipment.category + " " + equipment.manufacturer}
+                    {equipment.category}
                 </Typography>
 
                 <Typography variant="body" color="text.secondary">
-                    Catégorie : {equipment.category}<br></br>
                     Fabricant : {equipment.manufacturer}<br></br>
+                    Propriétaire : {equipmentDetails.owner}<br></br>
                     Modèle : {equipment.model}<br></br>
                     Numéro de série : {equipment.id}<br></br>
                     Détails : {equipmentDetails.description}
