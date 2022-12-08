@@ -29,12 +29,13 @@ export const equipments = [
     {id: "51947", category: "Tractopelle",   manufacturer: "Caterpillar",    model: "TracEx"}
 ]
 
+// TODO: identifier les propriétaires d'équipements par autre chose que leur nom
 export const equipmentsDetails = [
-    {equipmentId: "62038", description: "Chantier Bouygues Grand Paris", photo: grue1},
-    {equipmentId: "01647", description: "Chantier village JO 2024", photo: grue2},
-    {equipmentId: "36184", description: "Chantier village JO 2024", photo: grue3},
-    {equipmentId: "53985", description: "Chantier Bouygues Grand Paris", photo: bulldozer1},
-    {equipmentId: "51947", description: "Chantier Bouygues Grand Paris", photo: tractopelle1},
+    {equipmentId: "62038", owner: "Bouygues",   description: "Chantier Bouygues Grand Paris",   photo: grue1},
+    {equipmentId: "01647", owner: "Eiffage",    description: "Chantier village JO 2024",        photo: grue2},
+    {equipmentId: "36184", owner: "Eiffage",    description: "Chantier village JO 2024",        photo: grue3},
+    {equipmentId: "53985", owner: "Vinci",      description: "Chantier Grand Paris",            photo: bulldozer1},
+    {equipmentId: "51947", owner: "Vinci",      description: "Chantier Grand Paris",            photo: tractopelle1}
 ]
 
 export const assemblies = [

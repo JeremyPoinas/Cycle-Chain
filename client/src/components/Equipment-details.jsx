@@ -16,17 +16,7 @@ function EquipmentSummary({equipmentId}) {
     const equipmentDetails = equipmentsDetails.find( eq => eq.equipmentId === equipmentId);
 
     return (
-        <Stack direction="row" spacing={2}>
-
-            <Card sx={{maxWidth: 300}}>
-                <CardMedia
-                    component="img"
-                    height="200"
-                    image= {equipmentDetails.photo}
-                    alt="équipement"
-                />
-            </Card>
-
+        <Stack direction="row" justifyContent="space-between" spacing={2}>
 
             <Stack>
                 <Typography variant="h4">
@@ -41,6 +31,16 @@ function EquipmentSummary({equipmentId}) {
                     Détails : {equipmentDetails.description}
                 </Typography>
             </Stack>
+
+
+            <Card sx={{maxWidth: 300}}>
+                <CardMedia
+                    component="img"
+                    height="200"
+                    image= {equipmentDetails.photo}
+                    alt="équipement"
+                />
+            </Card>
 
         </Stack>
 
@@ -80,14 +80,11 @@ export default function EquipmentDetails() {
         <Stack p={5} spacing={5}>
 
             <EquipmentSummary equipmentId={equipmentId}/>
-
             <Divider />
-
-            <Stack direction="row" justifyContent="space-between">
-                <EquipmentOperations equipmentId={equipmentId}/>
-                <Parts equipmentId={equipmentId}/>
-            </Stack>
-
+            <Parts equipmentId={equipmentId}/>
+            <Divider />
+            <EquipmentOperations equipmentId={equipmentId}/>
+            
         </Stack>
     )
 }

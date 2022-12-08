@@ -50,8 +50,8 @@ export function PartsTable({parts}) {
   };
 
   return (
-    <Paper sx={{ width: '90%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+    <Paper sx={{overflow: "hidden" }}>
+      <TableContainer sx={{ maxHeight: 440, width:"auto" }}>
         <Table stickyHeader aria-label="sticky table">
 
 
@@ -114,7 +114,7 @@ export function PartsTable({parts}) {
 
 export default function PartsTableWithButtons({parts}) {
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} alignItems="stretch">
       <PartsTable parts={parts} />
       <CreateBuyButtons />
     </Stack>

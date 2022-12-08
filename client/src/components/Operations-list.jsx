@@ -18,7 +18,7 @@ function EquipmentOperationItem({operation}) {
             <ListItem disablePadding>
                 <ListItemButton>
 
-                    <Stack direction="row" alignItems="center" spacing={1}>
+                    <Stack direction="row" alignItems="center" justifyContent="flex-start" spacing={1}>
 
                         <Chip label={operation.date} />
                         <Typography variant="body1">{operation.category+" "+part.category}</Typography>
