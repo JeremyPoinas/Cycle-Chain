@@ -6,18 +6,18 @@ import tractopelle1 from    "../images/tractopelle1.jpg";
 
 
 export const parts = [
-    {id: "19385", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36", sold: true},
-    {id: "79276", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36", sold: true},
-    {id: "72649", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMX30", sold: true},
-    {id: "09154", category: "Vérin",         manufacturer: "CWA",        reference:"V900",  sold: true},
-    {id: "18734", category: "Vérin",         manufacturer: "CWA",        reference:"V900",  sold: true},
-    {id: "19845", category: "Vérin",         manufacturer: "CWA",        reference:"Vt43",  sold: true},
-    {id: "78594", category: "Vérin",         manufacturer: "CWA",        reference:"Vt67",  sold: true},
-    {id: "63948", category: "Vérin",         manufacturer: "CWA",        reference:"Vt22",  sold: false},
-    {id: "98455", category: "Boulon",        manufacturer: "M100",       reference:"TMS36", sold: true},
-    {id: "99814", category: "Boulon",        manufacturer: "M320",       reference:"TMS36", sold: true},
-    {id: "98143", category: "Boulon",        manufacturer: "M320",       reference:"TMS36", sold: true},
-    {id: "91548", category: "Boulon",        manufacturer: "M25",        reference:"TMS36", sold: true}
+    {id: "19385", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36", forSale: false},
+    {id: "79276", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMS36", forSale: false},
+    {id: "72649", category: "Transmission",  manufacturer: "Dae Gun",    reference:"TMX30", forSale: false},
+    {id: "09154", category: "Vérin",         manufacturer: "CWA",        reference:"V900",  forSale: false},
+    {id: "18734", category: "Vérin",         manufacturer: "CWA",        reference:"V900",  forSale: false},
+    {id: "19845", category: "Vérin",         manufacturer: "CWA",        reference:"Vt43",  forSale: false},
+    {id: "78594", category: "Vérin",         manufacturer: "CWA",        reference:"Vt67",  forSale: false},
+    {id: "63948", category: "Vérin",         manufacturer: "CWA",        reference:"Vt22",  forSale: true},
+    {id: "98455", category: "Boulon",        manufacturer: "M100",       reference:"TMS36", forSale: false},
+    {id: "99814", category: "Boulon",        manufacturer: "M320",       reference:"TMS36", forSale: false},
+    {id: "98143", category: "Boulon",        manufacturer: "M320",       reference:"TMS36", forSale: false},
+    {id: "91548", category: "Boulon",        manufacturer: "M25",        reference:"TMS36", forSale: false}
 ]
 
 

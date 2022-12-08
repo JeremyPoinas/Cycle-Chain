@@ -45,7 +45,7 @@ function PartsGrid({parts}) {
 
 export default function PartsBuying() {
 
-    const partsToBuy = parts.filter(p => p.sold === false);
+    const partsToBuy = parts.filter(p => p.forSale);
 
     return (
         <Stack p={5}>
