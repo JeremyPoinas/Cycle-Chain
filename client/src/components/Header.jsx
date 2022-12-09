@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink  } from 'react-router-dom';
+import Web3 from "web3";
 import useEth from "../contexts/EthContext/useEth";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -21,6 +22,18 @@ function Header() {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [pages, setPages] = useState(['About']);
     const settings = ['Profile', 'Logout'];
+
+    /* To connect using MetaMask */
+    async function connect() {
+      if (window.ethereum) {
+      
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      window.web3 = new Web3(window.ethereum);
+      
+      } else {
+      console.log("No wallet");
+      }
+    }
 
     const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
@@ -143,7 +156,7 @@ function Header() {
                 </NavLink>
               ))}
             </Box>
-            {!accounts && <Chip label='CONNECT' sx={{bgcolor: "#cfd8dc"}} />}
+            {!accounts && <Chip label='CONNECT' sx={{bgcolor: "#cfd8dc"}} onClick={connect} />}
             {accounts && <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
