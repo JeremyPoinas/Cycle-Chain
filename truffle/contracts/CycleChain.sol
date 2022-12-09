@@ -9,12 +9,13 @@ contract CycleChain is ERC721URIStorage, Ownable  {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
-  enum EquipmentType {GRUE, TRACTEUR}
-  EquipmentType equipmentType;
+  enum EquipmentCategory {GRUE, TRACTEUR}
+  EquipmentCategory equipmentCategory;
 
   struct Equipment {
     address producer;
-    EquipmentType equipmentType;
+    EquipmentCategory equipmentCategory;
+    string model;
     bool isValue;
   }
 
@@ -136,14 +137,16 @@ contract CycleChain is ERC721URIStorage, Ownable  {
 
   /// @notice Create an equipment
   /// @param _equipmentId Equipment's ID
-  function createEquipment(uint _equipmentId, EquipmentType _equipmentType) external onlyProducers {
+  function createEquipment(uint _equipmentId, EquipmentCategory _equipmentCategory, string memory _equipmentModel, address _owner) external onlyProducers {
     require(equipments[msg.sender][_equipmentId].isValue == false, "You already have this equipment.");
 
     Equipment memory equipment;
-    equipment.equipmentType = _equipmentType;
+    equipment.equipmentCategory = _equipmentCategory;
+    equipment.producer = msg.sender;
+    equipment.model = _equipmentModel;
     equipment.isValue = true;
 
-    equipments[msg.sender][_equipmentId] = equipment;
+    equipments[_owner][_equipmentId] = equipment;
     emit EquipmentCreated(_equipmentId);
   }
 
