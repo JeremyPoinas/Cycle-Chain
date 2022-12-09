@@ -9,12 +9,9 @@ contract CycleChain is ERC721URIStorage, Ownable  {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
-  enum EquipmentCategory {GRUE, TRACTEUR}
-  EquipmentCategory equipmentCategory;
-
   struct Equipment {
     address producer;
-    EquipmentCategory equipmentCategory;
+    string equipmentCategory;
     string model;
     bool isValue;
   }
@@ -23,7 +20,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
   mapping (uint => mapping (uint => bool)) partsInstalled;
 
   // Equipment's Owner => Equipment's ID => Equipment
-  mapping (address => mapping (uint => Equipment)) equipments;
+  mapping (address => Equipment[]) equipments;
 
   struct Part {
     uint equipmentId;
@@ -34,6 +31,9 @@ contract CycleChain is ERC721URIStorage, Ownable  {
 
   // NFT's ID => Part
   mapping (uint => Part) parts;
+
+  // NFT's id of parts that are listed for sale
+  uint[] listedParts;
 
   // Address => is registered as a producer
   mapping (address => bool) public producers;
@@ -67,8 +67,8 @@ contract CycleChain is ERC721URIStorage, Ownable  {
 
   // ::::::::::::: FUNCTIONS ::::::::::::: //
 
-  /// @notice Create one Part (NFT) for a producer
-  /// @param _producer Address of the entity creating the NFT
+  /// @notice As an equipment producer, create one Part (NFT) and transfer it to a part producer
+  /// @param _producer Address of the part producer that will get the Part (NFT)
   /// @return uint NFT's ID
   function createPart(address _producer, string memory _tokenURI)
     public
@@ -137,7 +137,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
 
   /// @notice Create an equipment
   /// @param _equipmentId Equipment's ID
-  function createEquipment(uint _equipmentId, EquipmentCategory _equipmentCategory, string memory _equipmentModel, address _owner) external onlyProducers {
+  function createEquipment(uint _equipmentId, string memory _equipmentCategory, string memory _equipmentModel, address _owner) external onlyProducers {
     require(equipments[msg.sender][_equipmentId].isValue == false, "You already have this equipment.");
 
     Equipment memory equipment;

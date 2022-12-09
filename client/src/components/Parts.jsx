@@ -25,7 +25,7 @@ export default function Portfolio() {
     type: '',
     reference: '',
     producerAddress: '',
-    img: '',
+    category: '',
   });
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -36,7 +36,7 @@ export default function Portfolio() {
       case 'producerAddress':
         setPartToAdd({...partToAdd, producerAddress: e.target.value });
         break;
-      case 'partType':
+      case 'category':
         setPartToAdd({...partToAdd, type: e.target.value });
         break;
       case 'reference':
@@ -45,24 +45,20 @@ export default function Portfolio() {
       case 'partId':
         setPartToAdd({...partToAdd, partId: e.target.value });
         break;
-      case 'img':
-        setPartToAdd({...partToAdd, img: e.target.value });
-        break;
       default:
     }
   };
 
   // Add a new proposal and update the proposals state
   const createPart = async () => {
-    if (partToAdd.producerAddress === '' || partToAdd.type === '' || partToAdd.reference === '' || partToAdd.partId === '' || partToAdd.img === '') {
+    if (partToAdd.producerAddress === '' || partToAdd.category === '' || partToAdd.reference === '' || partToAdd.partId === '') {
       alert('Please fill all the fields.');
     } else {
       const partURI = `{
         "serialNumber": "${partToAdd.partId}",
-        "type": "${partToAdd.type}",
+        "category": "${partToAdd.category}",
         "reference": "${partToAdd.reference}",
         "producerAddress": "${partToAdd.producerAddress}",
-        "img": "${partToAdd.img}",
       }`;
       
       try {
@@ -102,7 +98,7 @@ export default function Portfolio() {
                     required
                   />
                   <TextField 
-                    id="partType"
+                    id="category"
                     label="Part Type"
                     variant="outlined"
                     value={partToAdd.type}
@@ -125,8 +121,6 @@ export default function Portfolio() {
                     onChange={handlePartToAddChange}
                     required
                   />
-                  <label for="img">Choose the part's image:</label>
-                  <input type="file" id="img" onChange={handlePartToAddChange} required></input>
                   <Button variant="contained" onClick={createPart}>Create</Button>
                 </Stack>
               </Box>
