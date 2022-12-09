@@ -1,16 +1,22 @@
 import React from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EquipmentPreview from "./Equipment-preview";
-import { Link } from "react-router-dom";
+import EquipmentCreation from "./Equipment-creation";
+import useEth from "../contexts/EthContext/useEth";
 
 import { equipments, equipmentsDetails } from "./Mock-data";
 
 
 
 function EquipmentsGrid() {
+	const { state: { isProducer } } = useEth();
+	const [open, setOpen] = useState(false);
+	const handleOpen = () => setOpen(true);
 
     return (
         
@@ -38,12 +44,16 @@ function EquipmentsGrid() {
                     )
                 })}
             </Grid>
-
-            <Link to={"/create-equipment"}  style={{ textDecoration: 'none' }}>
-                <Button variant="contained" endIcon={<AddCircleIcon />}>
-                    Ajouter
+            {isProducer && 
+                <Button variant="contained" onClick={handleOpen} endIcon={<AddCircleIcon />} sx={{ width: "220px" }}>
+                    Add an equipment
                 </Button>
-            </Link>
+            }
+    
+            <EquipmentCreation
+                open={open}
+                setOpen={setOpen}
+            />
 
         </Stack>
     )

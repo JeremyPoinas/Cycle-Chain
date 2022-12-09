@@ -18,7 +18,7 @@ module.exports = {
       timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
       skipDryRun: true     // Skip dry run before migrations? (default: false for public nets)
     },
-    matic: {
+    mumbai: {
       provider: () => new HDWalletProvider({mnemonic:{phrase:`${process.env.MNEMONIC}`}, providerOrUrl: `https://rpc-mumbai.maticvigil.com`}),
       network_id: 80001,
       confirmations: 2,

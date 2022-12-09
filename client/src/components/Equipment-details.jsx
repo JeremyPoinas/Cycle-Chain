@@ -85,10 +85,10 @@ function InstallModal({ open, setOpen, equipmentId }) {
 
 	const handleInstallPart = async() => {
         try {
-        await contract.methods.installPartOnEquipment(part.id, equipmentId).call({ from: accounts[0] });
-        await contract.methods.installPartOnEquipment(part.id, equipmentId).send({ from: accounts[0] });
+            await contract.methods.installPartOnEquipment(part, equipmentId).call({ from: accounts[0] });
+            await contract.methods.installPartOnEquipment(part, equipmentId).send({ from: accounts[0] });
         } catch (err) {
-        alert(err);
+            alert(err);
         }
     };
 
@@ -151,7 +151,7 @@ function Parts({equipmentId}) {
                         setOpen={setOpen}
                         equipmentId={equipmentId}
                     ></InstallModal>
-                    <Link to="/parts-buying" style={{ textDecoration: 'none' }}>
+                    <Link to="/explore" style={{ textDecoration: 'none' }}>
                         <Button variant="contained" endIcon={<ShoppingCartIcon />}>Buy a part</Button>
                     </Link>
                 </Stack>
