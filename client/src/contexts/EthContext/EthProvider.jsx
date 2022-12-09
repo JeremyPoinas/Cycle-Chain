@@ -34,7 +34,7 @@ function EthProvider({ children }) {
   useEffect(() => {
     const tryInit = async () => {
       try {
-        const artifact = require("../../contracts/CycleChain.json");
+        const artifact = require("client/src/contracts/CycleChain.json");
         console.log('Try init', artifact);
         init(artifact);
       } catch (err) {
