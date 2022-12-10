@@ -7,7 +7,7 @@ import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
 
 contract CycleChain is ERC721URIStorage, Ownable  {
     using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+    Counters.Counter public _tokenIds;
 
     // Part object
     struct Part {
@@ -62,6 +62,14 @@ contract CycleChain is ERC721URIStorage, Ownable  {
       // In order to have the index of parts equal to the NFT ID, we need to fill the index 0 of parts
       Part memory part;
       parts.push(part);
+
+      // Create fictive equipments
+      createEquipment('TD1', 'Grue', 0x59F3fcdd50315c5309d2Cc72E6CBFfaC9133418c, 'MODEL_123');
+      createEquipment('TD2', 'Grue', 0x59F3fcdd50315c5309d2Cc72E6CBFfaC9133418c, 'MODEL_123');
+      createEquipment('TD3', 'Pelleteuse', 0x59F3fcdd50315c5309d2Cc72E6CBFfaC9133418c, 'MODEL_123');
+      createEquipment('JP1', 'Grue', 0x1e3CdC405728560eebC4ab093D9c461b36E28Aa3, 'MODEL_123');
+      createEquipment('JP2', 'Pelleteuse', 0x1e3CdC405728560eebC4ab093D9c461b36E28Aa3, 'MODEL_123');
+      createEquipment('JP3', 'Pelleteuse', 0x1e3CdC405728560eebC4ab093D9c461b36E28Aa3, 'MODEL_123');
     }
 
     /// @notice Check if the msg.sender is an equipment manufacturer
@@ -114,12 +122,13 @@ contract CycleChain is ERC721URIStorage, Ownable  {
       emit EquipmentManufacturerRemoved(_producer);
     }
 
+    /// TODO PUT BACK MODIFIER onlyEquipmentManufacturers
     /// @notice Adds an equipment to the equipments mapping and update the equipmentsSerialNumbers array
     /// @param _serialNumber Serial Number
     /// @param _category Category
     /// @param _owner The owner of the equipment (company name)
     /// @param _model Equipment model
-    function createEquipment(string memory _serialNumber, string memory _category, address _owner, string memory _model) public onlyEquipmentManufacturers {
+    function createEquipment(string memory _serialNumber, string memory _category, address _owner, string memory _model) public {
       require(equipments[_serialNumber].isValue == false, "This equipment already exists.");
       Equipment memory eq;
       eq.serialNumber = _serialNumber;
