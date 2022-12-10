@@ -291,11 +291,11 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     function makeTokenURI(string  memory serialNumber, string  memory category, string  memory model, string  memory manufacturer) internal pure returns(string  memory) {
       require((bytes(serialNumber).length != 0 && bytes(category).length != 0 && bytes(model).length != 0 && bytes(manufacturer).length != 0), "All fields must be filled.");
 
-      string  memory field1 = "{\"serialNumber\": \"";
-      string  memory field2 = "\", \"category\": \"";
-      string  memory field3 = "\", \"model\": \"";
-      string  memory field4 = "\", \"manufacturer\": \"";
-      string  memory field5 = "\"}";
+      string  memory field1 = '{\"serialNumber\": \"';
+      string  memory field2 = '\", \"category\": \"';
+      string  memory field3 = '\", \"model\": \"';
+      string  memory field4 = '\", \"manufacturer\": \"';
+      string  memory field5 = '\"}';
       return string.concat(field1, serialNumber, field2, category, field3, model, field4, manufacturer, field5);
     }
 
