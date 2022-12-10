@@ -15,9 +15,9 @@ import { Stack } from "@mui/system";
 
 const columns = [
     { id: 'category', label: 'Catégorie', minWidth: 100 },
-    { id: 'manufacturer', label: 'Fabricant', minWidth: 100 },
-    { id: 'reference', label: 'Référence', minWidth: 100 },
-    { id: 'id', label: 'Numéro de série', minWidth: 100 }
+    { id: 'producerAddress', label: 'Fabricant', minWidth: 100 },
+    { id: 'model', label: 'Référence', minWidth: 100 },
+    { id: 'serialNumber', label: 'Numéro de série', minWidth: 100 }
 ];
 
 
@@ -77,7 +77,7 @@ export function PartsTable({parts}) {
               .map((row) => {
                 return (
 
-                    <TableRow button component={Link} to={"/part/"+row.id} hover role="checkbox" tabIndex={-1} key={row.code}>
+                    <TableRow button component={Link} to={"/part/"+row.id} hover role="checkbox" tabIndex={-1} key={row.id}>
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
