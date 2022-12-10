@@ -8,6 +8,7 @@ function EthProvider({ children }) {
 
   const init = useCallback(
     async artifact => {
+      console.log('init', artifact);
       if (artifact) {
         const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
         const accounts = await web3.eth.requestAccounts();
@@ -34,6 +35,7 @@ function EthProvider({ children }) {
     const tryInit = async () => {
       try {
         const artifact = require("../../contracts/CycleChain.json");
+        console.log('Try init', artifact);
         init(artifact);
       } catch (err) {
         console.error(err);
@@ -49,7 +51,7 @@ function EthProvider({ children }) {
       init(state.artifact);
     };
 
-    events.forEach(e => window.ethereum.on(e, handleChange));
+    events.forEach(e => {console.log(e); window.ethereum.on(e, handleChange)});
     return () => {
       events.forEach(e => window.ethereum.removeListener(e, handleChange));
     };

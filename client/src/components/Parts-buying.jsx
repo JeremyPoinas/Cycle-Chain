@@ -3,10 +3,23 @@ import { Typography, Stack, Card, CardContent, CardActions } from "@mui/material
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Button from "@mui/material/Button";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import useEth from "../contexts/EthContext/useEth";
 import { parts } from "./Mock-data";
 
 
 function PartCard({part}) {
+	const { state: { contract, accounts } } = useEth();
+
+    const handleBuying = async() => {
+        try {
+            alert(part.listedPrice);
+            await contract.methods.marketBuyPart(part.id).call({ from: accounts[0], value: part.listedPrice });
+            await contract.methods.marketBuyPart(part.id).send({ from: accounts[0], value: part.listedPrice});
+        } catch (err) {
+            alert(err);
+        }
+    };
+
     return (
         
         <Card>
@@ -16,10 +29,11 @@ function PartCard({part}) {
                 <Typography color="text.secondary">Référence : {part.reference}</Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">Numéro de série : {part.id}</Typography>
                 <Typography variant="body">Délivrée par : Caterpillar</Typography>
+                <Typography variant="h6">Price: {part.listedPrice} MATIC</Typography>
             </CardContent>
 
             <CardActions>
-                <Button variant="contained" endIcon={<ShoppingCartIcon />}>Acheter</Button>
+                <Button variant="contained" onClick={handleBuying} endIcon={<ShoppingCartIcon />}>Acheter</Button>
             </CardActions>
 
         </Card>
@@ -45,7 +59,7 @@ function PartsGrid({parts}) {
 
 export default function PartsBuying() {
 
-    const partsToBuy = parts.filter(p => p.forSale);
+    const partsToBuy = parts.filter(p => p.isListed === true);
 
     return (
         <Stack p={5}>

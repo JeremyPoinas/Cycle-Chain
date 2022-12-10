@@ -1,10 +1,16 @@
 import React from "react";
-import { Card, CardMedia, Divider } from "@mui/material";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { Card, CardMedia, Divider, Modal, Box, TextField, MenuItem } from "@mui/material";
 import { Stack } from "@mui/system";
+import Button from "@mui/material/Button";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Typography from "@mui/material/Typography";
 import { EquipmentOperationsList } from "./Operations-list";
-import PartsTable from "./Parts-list";
-import { useParams } from "react-router-dom";
+import {PartsTable} from "./Parts-list";
+import useEth from "../contexts/EthContext/useEth";
 
 import { parts, equipments, equipmentsDetails, operations, assemblies } from "./Mock-data";
 
@@ -59,7 +65,76 @@ function EquipmentOperations({equipmentId}) {
     )
 }
 
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+function InstallModal({ open, setOpen, equipmentId }) {
+	const { state: { contract, accounts } } = useEth();
+	const [part, setPart] = useState('');
+	const handleClose = () => setOpen(false);
+
+
+	const handleInstallPart = async() => {
+        try {
+            await contract.methods.installPartOnEquipment(part, equipmentId).call({ from: accounts[0] });
+            await contract.methods.installPartOnEquipment(part, equipmentId).send({ from: accounts[0] });
+        } catch (err) {
+            alert(err);
+        }
+    };
+
+	const handlePartChange = (e) => {
+		setPart(e.target.value);
+	};
+
+	return(
+		<Modal
+			open={open}
+			onClose={handleClose}
+			aria-labelledby="modal-modal-title"
+			aria-describedby="modal-modal-description"
+		>
+			<Box sx={modalStyle}>
+				<Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 2 }}>
+					Please select the part you want to install on this equipment:
+				</Typography>
+				<Stack spacing={2} direction="column" alignItems="center">
+					<TextField 
+						id="part"
+                        select
+						label="Part to select"
+						variant="outlined"
+						value={part}
+						onChange={handlePartChange}
+						required
+                        sx={{width: "100%"}}
+					>
+                        {parts.map((part) => (
+                            <MenuItem key={part.id} value={part.id}>
+                                {part.id} - {part.category} - {part.reference}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+					<Button variant="contained" onClick={handleInstallPart}>Confirm</Button>
+				</Stack>
+			</Box>
+		</Modal>
+    )
+}
+
 function Parts({equipmentId}) {
+	const { state: { contract, accounts } } = useEth();
+	const [open, setOpen] = useState(false);
+	const handleOpen = () => setOpen(true);
 
     const partsIds = assemblies.find(assem => assem.equipmentId === equipmentId).parts;
     const partsArray = parts.filter( p => partsIds.includes(p.id) )
@@ -67,7 +142,20 @@ function Parts({equipmentId}) {
     return (
         <Stack>
             <Typography variant="h4" gutterBottom>Pièces certifiées</Typography>
-            <PartsTable parts={partsArray} />
+            <Stack spacing={2}> 
+                <PartsTable parts={partsArray} />
+                <Stack direction="row" spacing={2}>
+                    <Button variant="contained" onClick={handleOpen} endIcon={<AddCircleIcon />}>Install a part</Button>
+                    <InstallModal
+                        open={open}
+                        setOpen={setOpen}
+                        equipmentId={equipmentId}
+                    ></InstallModal>
+                    <Link to="/explore" style={{ textDecoration: 'none' }}>
+                        <Button variant="contained" endIcon={<ShoppingCartIcon />}>Buy a part</Button>
+                    </Link>
+                </Stack>
+            </Stack>
         </Stack>
     )
 }
