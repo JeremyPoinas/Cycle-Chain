@@ -85,8 +85,10 @@ function InstallModal({ open, setOpen, equipmentId }) {
 
 	const handleInstallPart = async() => {
         try {
-            await contract.methods.installPartOnEquipment(part, equipmentId).call({ from: accounts[0] });
-            await contract.methods.installPartOnEquipment(part, equipmentId).send({ from: accounts[0] });
+            //await contract.methods.installPartOnEquipment(part, equipmentId).call({ from: accounts[0] });
+            //await contract.methods.installPartOnEquipment(part, equipmentId).send({ from: accounts[0] });
+            await contract.methods.addPartToAssembly(equipmentId, part).call({ from: accounts[0] });
+            await contract.methods.addPartToAssembly(equipmentId, part).call({ from: accounts[0] });
         } catch (err) {
             alert(err);
         }
