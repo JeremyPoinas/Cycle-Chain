@@ -22,8 +22,7 @@ export default function Portfolio() {
   const { state: { contract, accounts } } = useEth();
   const [partToAdd, setPartToAdd] = useState({
     partId: '',
-    type: '',
-    reference: '',
+    model: '',
     producerAddress: '',
     category: '',
   });
@@ -37,10 +36,10 @@ export default function Portfolio() {
         setPartToAdd({...partToAdd, producerAddress: e.target.value });
         break;
       case 'category':
-        setPartToAdd({...partToAdd, type: e.target.value });
+        setPartToAdd({...partToAdd, category: e.target.value });
         break;
-      case 'reference':
-        setPartToAdd({...partToAdd, reference: e.target.value });
+      case 'model':
+        setPartToAdd({...partToAdd, model: e.target.value });
         break;
       case 'partId':
         setPartToAdd({...partToAdd, partId: e.target.value });
@@ -51,13 +50,14 @@ export default function Portfolio() {
 
   // Add a new proposal and update the proposals state
   const createPart = async () => {
-    if (partToAdd.producerAddress === '' || partToAdd.category === '' || partToAdd.reference === '' || partToAdd.partId === '') {
+    console.log(partToAdd);
+    if (partToAdd.producerAddress === '' || partToAdd.category === '' || partToAdd.model === '' || partToAdd.partId === '') {
       alert('Please fill all the fields.');
     } else {
       const partURI = `{
         "serialNumber": "${partToAdd.partId}",
         "category": "${partToAdd.category}",
-        "reference": "${partToAdd.reference}",
+        "model": "${partToAdd.model}",
         "producerAddress": "${partToAdd.producerAddress}",
       }`;
       
@@ -99,17 +99,17 @@ export default function Portfolio() {
                   />
                   <TextField 
                     id="category"
-                    label="Part Type"
+                    label="Part Category"
                     variant="outlined"
-                    value={partToAdd.type}
+                    value={partToAdd.category}
                     onChange={handlePartToAddChange}
                     required
                   />
                   <TextField 
-                    id="reference"
-                    label="Part Reference"
+                    id="model"
+                    label="Part model"
                     variant="outlined"
-                    value={partToAdd.reference}
+                    value={partToAdd.model}
                     onChange={handlePartToAddChange}
                     required
                   />

@@ -13,6 +13,7 @@ import { parts, equipments } from "./Mock-data";
 function EquipmentOperationItem({operation}) {
 
     const part = parts.find(p => p.id === operation.partId);
+    console.log(part);
     
     return (
             <ListItem disablePadding>
@@ -53,6 +54,7 @@ function PartOperationItem({operation}) {
 }
 
 export function EquipmentOperationsList({operations}) {
+    console.log(operations);
 
     return (
             <Stack alignItems="flex-start" spacing={2}>

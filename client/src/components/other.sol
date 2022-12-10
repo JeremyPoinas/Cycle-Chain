@@ -52,7 +52,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     event PartCreated(uint NftId);
     event EquipmentManufacturerRegistered(address _address);
     event EquipmentManufacturerRemoved(address _address);
-    event PartInstalledOnEquipment(uint _partId, string _equipmentSerialNumber);
+    event PartInstalledOnEquipment(string _partSerialNumber, string _equipmentSerialNumber);
     event PartRemovedFromEquipment(uint partId, uint equipmentId);
     event EquipmentCreated(string equipmentId);
     event partListed(uint partId, uint price);
@@ -61,7 +61,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     constructor() ERC721("Part", "CC") {
       // In order to have the index of parts equal to the NFT ID, we need to fill the index 0 of parts
       Part memory part;
-      parts.push(part);
+      parts[0] = part;
     }
 
     /// @notice Check if the msg.sender is an equipment manufacturer
@@ -117,8 +117,10 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     /// @notice Adds an equipment to the equipments mapping and update the equipmentsSerialNumbers array
     /// @param _serialNumber Serial Number
     /// @param _category Category
+    /// @param _manufacturer Manufacturer
     /// @param _owner The owner of the equipment (company name)
     /// @param _model Equipment model
+    /// @param _photoURL Photo URL
     function createEquipment(string memory _serialNumber, string memory _category, address _owner, string memory _model) public onlyEquipmentManufacturers {
       require(equipments[_serialNumber].isValue == false, "This equipment already exists.");
       Equipment memory eq;
@@ -135,7 +137,15 @@ contract CycleChain is ERC721URIStorage, Ownable  {
       emit EquipmentCreated(_serialNumber);
     }
 
-    function checkIfPartExistsInAssembly(string memory _equipmentSerialNumber, uint _partId) internal view returns(bool) {
+    /// @notice Sets an assembly in the assemblies mapping (existing values are replaced)
+    /// @param _equipmentSerialNumber Equipment's serial number
+    /// @param _partsSerialNumbers An array of serial numbers of the parts assembled in the equipement
+    function setAssembly(string memory _equipmentSerialNumber, uint[] _partsIds) internal {
+      assemblies[_equipmentSerialNumber].equipmentSerialNumber = _equipmentSerialNumber;
+      assemblies[_equipmentSerialNumber].partsIds = _partsIds;
+    }
+
+    function checkIfPartExistsInAssembly(string memory _equipmentSerialNumber, uint _partId) internal returns(bool) {
       for (uint i = 0; i <assemblies[_equipmentSerialNumber].partsIds.length; i++) {
         if (assemblies[_equipmentSerialNumber].partsIds[i] == _partId) return true;
       }
@@ -144,17 +154,51 @@ contract CycleChain is ERC721URIStorage, Ownable  {
 
     /// @notice Adds a part to an assembly (or creates he assembly if it doesn't exist)
     /// @param _equipmentSerialNumber The serial number of the equipment
-    /// @param _partId The id of the part to be installed
+    /// @param _partSerialNumber The serial number of the part to be removed
     function addPartToAssembly(string memory _equipmentSerialNumber, uint _partId) external {
       require(ownerOf(_partId) == msg.sender, "You do not possess this part");
       require(equipments[_equipmentSerialNumber].isValue == true, "You do not have this equipment");
       require(parts.length - 1 >= _partId, "You do not have this part");
       require(checkIfPartExistsInAssembly(_equipmentSerialNumber, _partId) == false, "Part already installed in assembly");
 
-      assemblies[_equipmentSerialNumber].equipmentSerialNumber = _equipmentSerialNumber;
-      assemblies[_equipmentSerialNumber].partsIds.push(_partId);
-      emit PartInstalledOnEquipment(_partId, _equipmentSerialNumber);
+      string[] memory partsArray = assemblies[_equipmentSerialNumber].partsIds;
+      uint len = partsArray.length;
+      partsArray[len] = _partId;
+      setAssembly(_equipmentSerialNumber, partsArray);
+
+      emit PartInstalledOnEquipment(_partSerialNumber, _equipmentSerialNumber);
     }
+
+    /*
+    // This function removes a part from an assembly
+    function removePartFromAssembly(string memory _equipmentSerialNumber, string memory _partSerialNumber) public {
+      // TODO: Check if msg.sender is the owner of the part
+      // TODO: Check if equipment exists
+      // TODO: Check if part exists
+      uint len = assemblies[_equipmentSerialNumber].partsSerialNumbers.length;
+      string[] memory existingPartsArray = new string[](len);
+      existingPartsArray = assemblies[_equipmentSerialNumber].partsSerialNumbers;
+
+      bool found = false;
+      for(uint i=0; i<len; i++){
+        // Compare part with part to be deleted
+        if(keccak256(abi.encodePacked(partsArray[i])) == keccak256(abi.encodePacked(_partSerialNumber))) {
+          found = true;
+          // Replace the part to be deleted with the last part of the array
+          partsArray[i] = partsArray[len-1];
+        }
+      }
+
+      if (found) {
+        partsArray.pop();
+      }
+
+      partsArray[len] = _partSerialNumber;
+      setAssembly(_equipmentSerialNumber, partsArray);
+
+      //emit PartRemovedFromEquipment(_partSerialNumber, _equipmentSerialNumber);
+    }
+    */
 
     /// @notice As an equipment manufacturer, create a part NFT and transfer it to a part manufacturer
     /// @param _forManufacturer Address of the part producer that will get the Part (NFT)
@@ -223,35 +267,4 @@ contract CycleChain is ERC721URIStorage, Ownable  {
       parts[_nftId].isListed = false;
       parts[_nftId].listedPrice = 0;
     }
-
-    /*
-    // This function removes a part from an assembly
-    function removePartFromAssembly(string memory _equipmentSerialNumber, string memory _partSerialNumber) public {
-      // TODO: Check if msg.sender is the owner of the part
-      // TODO: Check if equipment exists
-      // TODO: Check if part exists
-      uint len = assemblies[_equipmentSerialNumber].partsSerialNumbers.length;
-      string[] memory existingPartsArray = new string[](len);
-      existingPartsArray = assemblies[_equipmentSerialNumber].partsSerialNumbers;
-
-      bool found = false;
-      for(uint i=0; i<len; i++){
-        // Compare part with part to be deleted
-        if(keccak256(abi.encodePacked(partsArray[i])) == keccak256(abi.encodePacked(_partSerialNumber))) {
-          found = true;
-          // Replace the part to be deleted with the last part of the array
-          partsArray[i] = partsArray[len-1];
-        }
-      }
-
-      if (found) {
-        partsArray.pop();
-      }
-
-      partsArray[len] = _partSerialNumber;
-      setAssembly(_equipmentSerialNumber, partsArray);
-
-      //emit PartRemovedFromEquipment(_partSerialNumber, _equipmentSerialNumber);
-    }
-    */
 }

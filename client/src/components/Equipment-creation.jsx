@@ -21,9 +21,11 @@ export default function EquipmentCreation({ open, setOpen }) {
 	const handleClose = () => setOpen(false);
 
     const handleCreateEquipment = async() => {
+        console.log(equipment);
         try {
             await contract.methods.createEquipment(equipment.serialNumber, equipment.category, equipment.model, equipment.owner).call({ from: accounts[0] });
             await contract.methods.createEquipment(equipment.serialNumber, equipment.category, equipment.model, equipment.owner).send({ from: accounts[0] });
+            setOpen(false);
         } catch (err) {
             alert(err);
         }
@@ -60,8 +62,8 @@ export default function EquipmentCreation({ open, setOpen }) {
                 <Typography variant="h6" component="h2" sx={{ marginBottom: 2 }}>Create an equipment</Typography>
 
                 <Stack spacing={2} direction="column" alignItems="center">
-                    <TextField required id="model" label="Model" onChange={handleEquipmentChange} />
                     <TextField required id="category" label="Category" onChange={handleEquipmentChange} />
+                    <TextField required id="model" label="Model" onChange={handleEquipmentChange} />
                     <TextField required id="serialNumber" label="Serial number" onChange={handleEquipmentChange}/>
                     <TextField required id="owner" label="Owner" onChange={handleEquipmentChange}/>
                     <Button variant="contained" onClick={handleCreateEquipment}>Create</Button>
