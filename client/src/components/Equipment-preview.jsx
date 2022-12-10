@@ -3,9 +3,9 @@ import Card from "@mui/material/Card";
 import { CardContent, CardActionArea } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import grue1 from "../images/grue1.jpg";
 
-
-function EquipmentPreview({manufacturer, category, owner, description, img}) {
+function EquipmentPreview({manufacturer, category, owner}) {
 
     return (
         <Card sx={{ maxWidth: 345 }}>
@@ -16,7 +16,7 @@ function EquipmentPreview({manufacturer, category, owner, description, img}) {
                     component="img"
                     alt="grue"
                     height="140"
-                    image={img}
+                    image={grue1}
                     />
                     <CardContent>
 
@@ -30,10 +30,6 @@ function EquipmentPreview({manufacturer, category, owner, description, img}) {
 
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
                             {"Proriétaire : "+owner}
-                        </Typography>
-
-                        <Typography variant="body" color="text.secondary">
-                            {description}
                         </Typography>
                     </CardContent>
 

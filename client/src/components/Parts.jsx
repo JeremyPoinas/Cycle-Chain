@@ -58,7 +58,7 @@ export default function Portfolio() {
         "serialNumber": "${partToAdd.partId}",
         "category": "${partToAdd.category}",
         "model": "${partToAdd.model}",
-        "producerAddress": "${partToAdd.producerAddress}",
+        "producerAddress": "${partToAdd.producerAddress}"
       }`;
       
       try {

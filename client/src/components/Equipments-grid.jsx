@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Stack from "@mui/material/Stack";
@@ -9,14 +9,28 @@ import EquipmentPreview from "./Equipment-preview";
 import EquipmentCreation from "./Equipment-creation";
 import useEth from "../contexts/EthContext/useEth";
 
-import { equipments, equipmentsDetails } from "./Mock-data";
-
 
 
 function EquipmentsGrid() {
-	const { state: { isProducer } } = useEth();
+	const { state: { contract, accounts, isProducer } } = useEth();
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
+    const [equipments, setEquipments] = useState([]);
+
+    // Get all equipments and update the associated state
+    const getEquipments = async () => {
+        try {
+            let allEquipments = await contract?.methods.getAllEquipments().call({ from: accounts[0] });
+            allEquipments = allEquipments?.filter(equipment => equipment.owner === accounts[0]);
+            if (allEquipments) setEquipments(allEquipments);
+        } catch (err) {
+            alert(err); 
+        }
+    };
+
+    useEffect(() => {
+        getEquipments();
+    }, [accounts, contract]);
 
     return (
         
@@ -25,8 +39,7 @@ function EquipmentsGrid() {
 
                 {equipments.map((equipment) => {
 
-                    const id = equipment.id;
-                    const eqDetails = equipmentsDetails.find( eq => eq.equipmentId === id);
+                    const id = equipment.serialNumber;
 
                     return (
                         <Grid key={id} xs={12} sm={6} md={3} lg={2}>
@@ -35,9 +48,7 @@ function EquipmentsGrid() {
                                 <EquipmentPreview
                                 manufacturer={equipment.manufacturer}
                                 category={equipment.category}
-                                owner={eqDetails.owner}
-                                description={eqDetails.description}
-                                img={eqDetails.photo} />
+                                owner={equipment.owner}/>
                             </Link>
 
                         </Grid>
@@ -53,6 +64,7 @@ function EquipmentsGrid() {
             <EquipmentCreation
                 open={open}
                 setOpen={setOpen}
+                getEquipments={getEquipments}
             />
 
         </Stack>

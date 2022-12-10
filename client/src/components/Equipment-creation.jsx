@@ -15,7 +15,7 @@ const modalStyle = {
     p: 4,
   };
 
-export default function EquipmentCreation({ open, setOpen }) {
+export default function EquipmentCreation({ open, setOpen, getEquipments }) {
 	const { state: { contract, accounts } } = useEth();
 	const [equipment, setEquipment] = useState({});
 	const handleClose = () => setOpen(false);
@@ -23,9 +23,10 @@ export default function EquipmentCreation({ open, setOpen }) {
     const handleCreateEquipment = async() => {
         console.log(equipment);
         try {
-            await contract.methods.createEquipment(equipment.serialNumber, equipment.category, equipment.model, equipment.owner).call({ from: accounts[0] });
-            await contract.methods.createEquipment(equipment.serialNumber, equipment.category, equipment.model, equipment.owner).send({ from: accounts[0] });
+            await contract.methods.createEquipment(equipment.serialNumber, equipment.category, equipment.owner, equipment.model).call({ from: accounts[0] });
+            await contract.methods.createEquipment(equipment.serialNumber, equipment.category, equipment.owner, equipment.model).send({ from: accounts[0] });
             setOpen(false);
+            getEquipments();
         } catch (err) {
             alert(err);
         }
