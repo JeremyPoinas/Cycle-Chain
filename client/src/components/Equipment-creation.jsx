@@ -25,6 +25,7 @@ export default function EquipmentCreation({ open, setOpen, getEquipments }) {
             await contract.methods.createEquipment(equipment.serialNumber, equipment.category, equipment.owner, equipment.model).call({ from: accounts[0] });
             await contract.methods.createEquipment(equipment.serialNumber, equipment.category, equipment.owner, equipment.model).send({ from: accounts[0] });
             setOpen(false);
+            setEquipment({});
             getEquipments();
         } catch (err) {
             alert(err);
