@@ -20,5 +20,17 @@ contract('CycleChain', accounts => {
       // Create a new contract instance
       ContractInstance = await CycleChain.new({from:owner});
     });
+
+
+    it("Sets an assembly", async() => {
+      //const assembly = ContractInstance.
+      await ContractInstance.addPartToAssembly("123",3);
+
+    });
+
+
+
+
+
   });
 });
