@@ -47,7 +47,7 @@ function EquipmentSummary({equipmentId}) {
                     Fabricant : {equipment.manufacturer}<br></br>
                     Propriétaire : {equipment.owner}<br></br>
                     Modèle : {equipment.model}<br></br>
-                    Numéro de série : {equipment.id}<br></br>
+                    Numéro de série : {equipment.serialNumber}<br></br>
                 </Typography>
             </Stack>
 
@@ -77,6 +77,67 @@ function EquipmentOperations({equipmentId}) {
     )
 }*/
 
+function Parts({equipmentId}) {
+	const { state: { contract, accounts } } = useEth();
+	const [open, setOpen] = useState(false);
+	const handleOpen = () => setOpen(true);
+    const [partAssembly, setAssembly] = useState(null);
+    const [parts, setParts] = useState([]);
+
+    const getParts = async () => {
+        try {
+            let oneAssembly = await contract?.methods.getOneAssembly(equipmentId).call({ from: accounts[0] });
+            if (oneAssembly) {
+                setAssembly([...oneAssembly]);
+                const partIds = oneAssembly.partsIds;
+                let partsOnEquipment= [];
+                for (const i of partIds) {
+                    const tokenURI = await contract?.methods.tokenURI(i).call({ from: accounts[0] });
+                    const part = JSON.parse(tokenURI);
+
+                    const partListingInfo = await contract?.methods.parts(i).call({ from: accounts[0] });
+                    part.isListed = partListingInfo.isListed;
+                    part.listedPrice = partListingInfo.listedPrice;
+                    part.id = i;
+                    
+                    partsOnEquipment.push(part);
+                };
+                setParts(partsOnEquipment);
+            }
+        } catch (err) {
+            alert(err); 
+        }
+    };
+
+    useEffect(() => {
+        getParts();
+    }, [accounts, contract]);
+
+    console.log("parts", partAssembly);
+
+    return (
+        <Stack>
+            <Typography variant="h4" gutterBottom>Pièces certifiées</Typography>
+            <Stack spacing={2}> 
+                <PartsTable parts={parts} />
+                <Stack direction="row" spacing={2}>
+                    <Button variant="contained" onClick={handleOpen} endIcon={<AddCircleIcon />}>Install a part</Button>
+                    <InstallModal
+                        open={open}
+                        setOpen={setOpen}
+                        equipmentId={equipmentId}
+                        partAssembly={partAssembly}
+                        getParts={getParts}
+                    ></InstallModal>
+                    <Link to="/explore" style={{ textDecoration: 'none' }}>
+                        <Button variant="contained" endIcon={<ShoppingCartIcon />}>Buy a part</Button>
+                    </Link>
+                </Stack>
+            </Stack>
+        </Stack>
+    )
+}
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -89,19 +150,19 @@ const modalStyle = {
   p: 4,
 };
 
-function InstallModal({ open, setOpen, equipmentId, assembly }) {
+function InstallModal({ open, setOpen, equipmentId, partAssembly, getParts }) {
 	const { state: { contract, accounts } } = useEth();
-	const [partId, setPartId] = useState(0);
+	const [partId, setPartId] = useState('');
 	const handleClose = () => setOpen(false);
     const [partsNotInAssembly, setPartsNotInAssembly] = useState([]);
 
     const getPartsNotInAssembly = async () => {
         try {
             let numberOfParts = await contract?.methods._tokenIds().call({ from: accounts[0] });
+        
             let parts= [];
-            console.log(assembly, numberOfParts);
             for (let i=1; i<= numberOfParts; i++) {
-                if (assembly === null || !assembly.partsIds.includes(i)) {
+                if (partAssembly !== null && !partAssembly[1].includes(String(i))) {
                     const partOwner = await contract?.methods.ownerOf(i).call({ from: accounts[0] });
                     if (partOwner === accounts[0]) {
                         const tokenURI = await contract?.methods.tokenURI(i).call({ from: accounts[0] });
@@ -113,7 +174,6 @@ function InstallModal({ open, setOpen, equipmentId, assembly }) {
                         part.id = i;
         
                         parts.push(part);
-                        console.log(part);
                     }
                 }
             }
@@ -125,23 +185,22 @@ function InstallModal({ open, setOpen, equipmentId, assembly }) {
 
     useEffect(() => {
         getPartsNotInAssembly();
-    }, [accounts, contract]);
+    }, [accounts, contract, partAssembly]);
 
 
 	const handleInstallPart = async() => {
         try {
             await contract.methods.addPartToAssembly(equipmentId, partId).call({ from: accounts[0] });
-            await contract.methods.addPartToAssembly(equipmentId, partId).call({ from: accounts[0] });
+            await contract.methods.addPartToAssembly(equipmentId, partId).send({ from: accounts[0] });
             setOpen(false);
+            getParts();
         } catch (err) {
             alert(err);
         }
     };
 
 	const handlePartChange = (e) => {
-        console.log(e.target.value);
 		setPartId(e.target.value);
-        console.log(partId);
 	};
 
 	return(
@@ -176,65 +235,6 @@ function InstallModal({ open, setOpen, equipmentId, assembly }) {
 				</Stack>
 			</Box>
 		</Modal>
-    )
-}
-
-function Parts({equipmentId}) {
-	const { state: { contract, accounts } } = useEth();
-	const [open, setOpen] = useState(false);
-	const handleOpen = () => setOpen(true);
-    const [assembly, setAssembly] = useState(null);
-    const [parts, setParts] = useState([]);
-
-    const getParts = async () => {
-        try {
-            let oneAssembly = await contract?.methods.getOneAssembly(equipmentId).call({ from: accounts[0] });
-            if (oneAssembly) {
-                setAssembly(oneAssembly);
-                const partIds = oneAssembly.partsIds;
-                let parts= [];
-                for (let i=1; i<= partIds.length; i++) {
-                    const tokenURI = await contract?.methods.tokenURI(i).call({ from: accounts[0] });
-                    const part = JSON.parse(tokenURI);
-
-                    const partListingInfo = await contract?.methods.parts(i).call({ from: accounts[0] });
-                    part.isListed = partListingInfo.isListed;
-                    part.listedPrice = partListingInfo.listedPrice;
-
-                    parts.push(part);
-                }
-                setParts(parts);
-            }
-        } catch (err) {
-            alert(err); 
-        }
-    };
-
-    useEffect(() => {
-        getParts();
-    }, [accounts, contract]);
-
-    return (
-        <Stack>
-            <Typography variant="h4" gutterBottom>Pièces certifiées</Typography>
-            <Stack spacing={2}> 
-                <PartsTable parts={parts} />
-                <Stack direction="row" spacing={2}>
-                    <Button variant="contained" onClick={handleOpen} endIcon={<AddCircleIcon />}>Install a part</Button>
-                    <InstallModal
-                        open={open}
-                        setOpen={setOpen}
-                        equipmentId={equipmentId}
-                        parts={parts}
-                        assembly={assembly}
-                    ></InstallModal>
-                    {/** 
-                    <Link to="/explore" style={{ textDecoration: 'none' }}>
-                        <Button variant="contained" endIcon={<ShoppingCartIcon />}>Buy a part</Button>
-                    </Link>*/}
-                </Stack>
-            </Stack>
-        </Stack>
     )
 }
 
