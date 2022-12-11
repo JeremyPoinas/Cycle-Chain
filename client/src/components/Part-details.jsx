@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Divider, Button, Modal, Typography, Box, TextField } from "@mui/material";
 import InputAdornment from '@mui/material/InputAdornment';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -8,27 +8,25 @@ import useEth from "../contexts/EthContext/useEth";
 import { PartOperationsList } from "./Operations-list";
 import { useParams } from "react-router-dom";
 
-import { parts, operations } from "./Mock-data";
+import { operations } from "./Mock-data";
 
 
 
-function PartSummary({partId}) {
-
-	const part = parts.find(p => p.id === partId);
-
+function PartSummary({part}) {
 	return (
 		<Stack direction="row" spacing={2}>
 
 			<Stack>
 				<Typography variant="h4">
-					{part.category + " " + part.manufacturer}
+					{part.category}
 				</Typography>
 
 				<Typography variant="body" color="text.secondary">
-					Catégorie : {part.category}<br></br>
-					Fabricant : {part.manufacturer}<br></br>
-					Référence : {part.reference}<br></br>
-					Numéro de série : {part.id}
+					Fabricant : {part.producerAddress}<br></br>
+					Référence : {part.model}<br></br>
+					Numéro de série : {part.serialNumber}
+				
+					{part.isListed && <Typography>For sale at: {part.listedPrice} MATIC</Typography>}
 				</Typography>
 			</Stack>
 
@@ -39,7 +37,7 @@ function PartSummary({partId}) {
 
 function PartOperations({partId}) {
 
-	const ops = operations.filter(op => op.partId === partId);
+	const ops = operations.filter(op => op.partId === '1');
 
 	return (
 		<Stack>
@@ -61,7 +59,7 @@ const modalStyle = {
   p: 4,
 };
 
-function SellModal({ open, setOpen }) {
+function SellModal({ open, setOpen, getPart }) {
 	let { partId } = useParams();
 	const { state: { contract, accounts } } = useEth();
 	const [listingPrice, setListingPrice] = useState('');
@@ -89,6 +87,7 @@ function SellModal({ open, setOpen }) {
 				await contract.methods.listPart(partId, listingPrice).call({ from: accounts[0] });
 				await contract.methods.listPart(partId, listingPrice).send({ from: accounts[0] });
 				setOpen(false);
+				getPart();
 		} catch (err) {
 				alert(err);
 		}
@@ -132,7 +131,30 @@ export default function PartDetails() {
 	let { partId } = useParams();
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
-	const part = parts.find(p => p.id === partId);
+	const [part, setPart] = useState({});
+
+	// Get one equipment and update the associated state
+	const getPart = async () => {
+			try {
+					const tokenURI = await contract?.methods.tokenURI(partId).call({ from: accounts[0] });
+					if (tokenURI) {
+						const part = JSON.parse(tokenURI);
+	
+						const partListingInfo = await contract?.methods.parts(partId).call({ from: accounts[0] });
+						part.isListed = partListingInfo.isListed;
+						part.listedPrice = partListingInfo.listedPrice;
+						part.id = partId;
+	
+						setPart(part);
+					}
+			} catch (err) {
+					alert(err); 
+			}
+	};
+
+	useEffect(() => {
+		getPart();
+	}, [accounts, contract]);
 
 	const handleDelist = async() => {
 		let approvedAddress;
@@ -153,6 +175,7 @@ export default function PartDetails() {
 		try {
 			await contract.methods.delistPart(partId).call({ from: accounts[0] });
 			await contract.methods.delistPart(partId).send({ from: accounts[0] });
+			getPart();
 		} catch (err) {
 			alert(err);
 		}
@@ -161,7 +184,7 @@ export default function PartDetails() {
 	return (
 		<Stack p={5} spacing={5}>
 
-			<PartSummary partId={partId}/>
+			<PartSummary part={part}/>
 
 			{!part.isListed &&
 				<Button variant="contained" endIcon={<ShoppingCartIcon />} sx={{width: '15%'}}
@@ -181,11 +204,14 @@ export default function PartDetails() {
 			<SellModal
 				open={open}
 				setOpen={setOpen}
+				getPart={getPart}
 			></SellModal>
 
-			{/** 
+			{/*
 			<Divider />
-			<PartOperations partId={partId}/>*/}
+
+			<PartOperations />
+			*/}
 
 		</Stack>
 	)
