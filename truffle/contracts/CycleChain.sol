@@ -236,7 +236,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     /// @notice Buy a part at market price
     /// @param _nftId Part's NFT ID
     function marketBuyPart(uint256 _nftId) public payable {
-      uint listedPrice = parts[_nftId].listedPrice;
+      uint listedPrice = parts[_nftId].listedPrice * 10**18;
       require(parts[_nftId].isListed == true, "This part is not listed.");
       require(msg.value == listedPrice, "Message value is not equal to listed price");
 

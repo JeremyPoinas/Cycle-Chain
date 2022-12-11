@@ -19,14 +19,18 @@ export default function Portfolio() {
             let numberOfParts = await contract?.methods._tokenIds().call({ from: accounts[0] });
             let parts= [];
             for (let i=1; i<= numberOfParts; i++) {
-                const tokenURI = await contract?.methods.tokenURI(i).call({ from: accounts[0] });
-                const part = JSON.parse(tokenURI);
+                const partOwner = await contract?.methods.ownerOf(i).call({ from: accounts[0] });
+                if (partOwner === accounts[0]) {
+                    const tokenURI = await contract?.methods.tokenURI(i).call({ from: accounts[0] });
+                    const part = JSON.parse(tokenURI);
 
-                const partListingInfo = await contract?.methods.parts(i).call({ from: accounts[0] });
-                part.isListed = partListingInfo.isListed;
-                part.listedPrice = partListingInfo.listedPrice;
+                    const partListingInfo = await contract?.methods.parts(i).call({ from: accounts[0] });
+                    part.isListed = partListingInfo.isListed;
+                    part.listedPrice = partListingInfo.listedPrice;
+                    part.id = i;
 
-                parts.push(part);
+                    parts.push(part);
+                }
             }
             setOwnerParts(parts);
         } catch (err) {
