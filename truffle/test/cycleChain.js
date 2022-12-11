@@ -93,5 +93,27 @@ contract('CycleChain', accounts => {
 
     });
 
+    describe("EVENTS", function () {
+
+      beforeEach(async function(){
+        await ContractInstance.registerEquipmentManufacturer(equipmentManufacturer, {from: owner});
+      });
+
+      it("Gets PartCreated event", async() => {
+        const findEvent = await ContractInstance.createPart(partManufacturer, "NFT URI 1", {from: equipmentManufacturer});
+        expectEvent(findEvent,"PartCreated", {NftId: new BN(1)});
+      });
+
+      it("Gets PartListed event", async() => {
+        await ContractInstance.createPart(partManufacturer, "NFT URI 1", {from: equipmentManufacturer});
+        const findEvent = await ContractInstance.listPart(new BN(1), new BN(100), {from: partManufacturer});
+        expectEvent(findEvent,"partListed", {partId: new BN(1), price: new BN(100)});
+      });
+
+    });
+
+
+
+
   });
 });
