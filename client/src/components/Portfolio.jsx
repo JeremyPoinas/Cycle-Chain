@@ -11,7 +11,7 @@ import useEth from "../contexts/EthContext/useEth";
 
 export default function Portfolio() {
 	const { state: { contract, accounts } } = useEth();
-    const [parts, setParts] = useState([]);
+    const [ownerParts, setOwnerParts] = useState([]);
 
     // Get all equipments and update the associated state
     const getParts = async () => {
@@ -28,7 +28,7 @@ export default function Portfolio() {
 
                 parts.push(part);
             }
-            setParts(parts);
+            setOwnerParts(parts);
         } catch (err) {
             alert(err); 
         }
@@ -50,7 +50,7 @@ export default function Portfolio() {
 
             <Stack>
                 <Typography variant="h4" gutterBottom>Pièces certifiées</Typography>
-                <PartsTable parts={parts}/>
+                <PartsTable parts={ownerParts}/>
             </Stack>
 
             <Box></Box>

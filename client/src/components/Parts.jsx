@@ -64,7 +64,6 @@ export default function Portfolio() {
         await contract.methods.createPart(partToAdd.producerAddress, partURI).call({ from: accounts[0] });
         await contract.methods.createPart(partToAdd.producerAddress, partURI).send({ from: accounts[0] });
         setOpen(false);
-        alert('all good');
       } catch (err) {
         alert(err);
       }
