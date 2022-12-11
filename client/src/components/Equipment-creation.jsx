@@ -21,7 +21,6 @@ export default function EquipmentCreation({ open, setOpen, getEquipments }) {
 	const handleClose = () => setOpen(false);
 
     const handleCreateEquipment = async() => {
-        console.log(equipment);
         try {
             await contract.methods.createEquipment(equipment.serialNumber, equipment.category, equipment.owner, equipment.model).call({ from: accounts[0] });
             await contract.methods.createEquipment(equipment.serialNumber, equipment.category, equipment.owner, equipment.model).send({ from: accounts[0] });

@@ -34,7 +34,6 @@ function CreateBuyButtons() {
 
 
 export function PartsTable({parts}) {
-
   const rows = parts;
 
   const [page, setPage] = React.useState(0);

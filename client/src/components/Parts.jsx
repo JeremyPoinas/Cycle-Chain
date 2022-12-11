@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Divider, Modal, Stack, Button, Typography, Box, TextField } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import useEth from "../contexts/EthContext/useEth";
 import { PartsTable } from "./Parts-list";
-import { parts } from "./Mock-data";
+//import { parts } from "./Mock-data";
 
 const modalStyle = {
   position: 'absolute',
@@ -26,6 +26,40 @@ export default function Portfolio() {
     producerAddress: '',
     category: '',
   });
+
+
+  // ::::::::::::::: GET MINTED PARTS :::::::::::::::
+
+  const [mintedParts, setMintedParts] = useState([]);
+
+  const getMintedParts = async () => {
+    try {
+      let numberOfParts = await contract?.methods._tokenIds().call({ from: accounts[0] });
+      let mintedPartsArray = [];
+
+      for (let i=1; i<= numberOfParts; i++) {
+        let uri = await contract?.methods.tokenURI(i).call({ from: accounts[0] });
+        if (uri) {
+          const uriObject = JSON.parse(uri);
+            if(uriObject.minterAddress == accounts[0]) {
+              mintedPartsArray.push(uriObject);
+            }
+        } 
+      }
+      setMintedParts(mintedPartsArray);
+
+    } catch (err) { alert(err); }
+  };
+
+  useEffect(() => {
+    getMintedParts();
+  }, [accounts, contract]);
+
+
+
+
+
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -57,14 +91,15 @@ export default function Portfolio() {
         "serialNumber": "${partToAdd.partId}",
         "category": "${partToAdd.category}",
         "model": "${partToAdd.model}",
-        "producerAddress": "${partToAdd.producerAddress}"
+        "producerAddress": "${partToAdd.producerAddress}",
+        "minterAddress": "${accounts[0]}"
       }`;
       
       try {
         await contract.methods.createPart(partToAdd.producerAddress, partURI).call({ from: accounts[0] });
         await contract.methods.createPart(partToAdd.producerAddress, partURI).send({ from: accounts[0] });
         setOpen(false);
-        alert('all good');
+        getMintedParts();
       } catch (err) {
         alert(err);
       }
@@ -72,67 +107,67 @@ export default function Portfolio() {
   };
 
   return (
-      <Box sx={{ width: '100%', maxWidth: 2000, p:5 }}>
+      <Stack spacing={2} padding={5}>
 
-          <Box sx={{ m:5 }} alignItems="center">
-            <Button variant="contained" onClick={handleOpen} endIcon={<AddCircleIcon />}>Create a new Part</Button>
-            <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Box sx={modalStyle}>
-                <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 2 }}>
-                  Please enter the part information:
-                </Typography>
-                <Stack spacing={2} direction="column" alignItems="center">
-                  <TextField 
-                    id="producerAddress"
-                    label="Producer address"
-                    variant="outlined"
-                    value={partToAdd.producerAddress}
-                    onChange={handlePartToAddChange}
-                    helperText="Enter a Polygon address"
-                    required
-                  />
-                  <TextField 
-                    id="category"
-                    label="Part Category"
-                    variant="outlined"
-                    value={partToAdd.category}
-                    onChange={handlePartToAddChange}
-                    required
-                  />
-                  <TextField 
-                    id="model"
-                    label="Part model"
-                    variant="outlined"
-                    value={partToAdd.model}
-                    onChange={handlePartToAddChange}
-                    required
-                  />
-                  <TextField 
-                    id="partId"
-                    label="Part serial number"
-                    variant="outlined"
-                    value={partToAdd.partId}
-                    onChange={handlePartToAddChange}
-                    required
-                  />
-                  <Button variant="contained" onClick={createPart}>Create</Button>
-                </Stack>
-              </Box>
-            </Modal>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={modalStyle}>
+            <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 2 }}>
+              Please enter the part information:
+            </Typography>
+            <Stack spacing={2} direction="column" alignItems="center">
+              <TextField 
+                id="producerAddress"
+                label="Producer address"
+                variant="outlined"
+                value={partToAdd.producerAddress}
+                onChange={handlePartToAddChange}
+                helperText="Enter a Polygon address"
+                required
+              />
+              <TextField 
+                id="category"
+                label="Part Category"
+                variant="outlined"
+                value={partToAdd.category}
+                onChange={handlePartToAddChange}
+                required
+              />
+              <TextField 
+                id="model"
+                label="Part model"
+                variant="outlined"
+                value={partToAdd.model}
+                onChange={handlePartToAddChange}
+                required
+              />
+              <TextField 
+                id="partId"
+                label="Part serial number"
+                variant="outlined"
+                value={partToAdd.partId}
+                onChange={handlePartToAddChange}
+                required
+              />
+              <Button variant="contained" onClick={createPart}>Create</Button>
+            </Stack>
           </Box>
+        </Modal>
 
-          <Divider />
 
-          <Box sx={{ m:5 }}>
-              <Typography variant="h4" gutterBottom>Parts produced</Typography>
-              <PartsTable parts={parts}/>
-          </Box>
-      </Box>
+        <Typography variant="h4" gutterBottom>Parts produced</Typography>
+
+        <PartsTable parts={mintedParts}/>
+
+        <Stack direction="row">
+          <Button variant="contained" onClick={handleOpen} endIcon={<AddCircleIcon />}>Create a new Part</Button>
+        </Stack>
+              
+      </Stack>
           
   )
 }

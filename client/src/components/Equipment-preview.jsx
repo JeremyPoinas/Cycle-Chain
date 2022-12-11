@@ -20,16 +20,16 @@ function EquipmentPreview({manufacturer, category, owner}) {
                     />
                     <CardContent>
 
-                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                            {manufacturer}
-                        </Typography>
-
                         <Typography gutterBottom variant="h6" component="div">
                             {category}
                         </Typography>
 
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            {"Proriétaire : "+owner}
+                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                            {"Manufacturer : "+manufacturer.substring(0,6)+"..."+manufacturer.slice(-5)}
+                        </Typography>
+
+                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                            {"Owner : "+owner.substring(0,6)+"..."+owner.slice(-5)}
                         </Typography>
                     </CardContent>
 

@@ -63,13 +63,13 @@ contract CycleChain is ERC721URIStorage, Ownable  {
       Part memory part;
       parts.push(part);
 
-      // Create fictive equipments
-      createEquipment('TD1', 'Grue', 0x59F3fcdd50315c5309d2Cc72E6CBFfaC9133418c, 'MODEL_123');
-      createEquipment('TD2', 'Grue', 0x59F3fcdd50315c5309d2Cc72E6CBFfaC9133418c, 'MODEL_123');
-      createEquipment('TD3', 'Pelleteuse', 0x59F3fcdd50315c5309d2Cc72E6CBFfaC9133418c, 'MODEL_123');
-      createEquipment('JP1', 'Grue', 0x1e3CdC405728560eebC4ab093D9c461b36E28Aa3, 'MODEL_123');
-      createEquipment('JP2', 'Pelleteuse', 0x1e3CdC405728560eebC4ab093D9c461b36E28Aa3, 'MODEL_123');
-      createEquipment('JP3', 'Pelleteuse', 0x1e3CdC405728560eebC4ab093D9c461b36E28Aa3, 'MODEL_123');
+      // Create mock equipments
+      createEquipment('TD1', 'Grue',        0x0Aa9547EE37E6B9064f9FB95cd2E8864DC6D3569, 'MODEL_123');
+      createEquipment('TD2', 'Grue',        0x0Aa9547EE37E6B9064f9FB95cd2E8864DC6D3569, 'MODEL_123');
+      createEquipment('TD3', 'Pelleteuse',  0x0Aa9547EE37E6B9064f9FB95cd2E8864DC6D3569, 'MODEL_123');
+      createEquipment('JP1', 'Grue',        0x1e3CdC405728560eebC4ab093D9c461b36E28Aa3, 'MODEL_123');
+      createEquipment('JP2', 'Pelleteuse',  0x1e3CdC405728560eebC4ab093D9c461b36E28Aa3, 'MODEL_123');
+      createEquipment('JP3', 'Pelleteuse',  0x1e3CdC405728560eebC4ab093D9c461b36E28Aa3, 'MODEL_123');
     }
 
     /// @notice Check if the msg.sender is an equipment manufacturer
