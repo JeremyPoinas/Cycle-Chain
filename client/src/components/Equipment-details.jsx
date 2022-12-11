@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Card, CardMedia, Divider, Modal, Box, TextField, MenuItem } from "@mui/material";
@@ -11,15 +11,29 @@ import Typography from "@mui/material/Typography";
 import { EquipmentOperationsList } from "./Operations-list";
 import {PartsTable} from "./Parts-list";
 import useEth from "../contexts/EthContext/useEth";
+import grue1 from "../images/grue1.jpg";
 
-import { parts, equipments, equipmentsDetails, operations, assemblies } from "./Mock-data";
+import { operations } from "./Mock-data";
 
 
 
 function EquipmentSummary({equipmentId}) {
+	const { state: { contract, accounts } } = useEth();
+    const [equipment, setEquipment] = useState([]);
 
-    const equipment = equipments.find(eq => eq.id === equipmentId);
-    const equipmentDetails = equipmentsDetails.find( eq => eq.equipmentId === equipmentId);
+    // Get one equipment and update the associated state
+    const getEquipment = async () => {
+        try {
+            let oneEquipment = await contract?.methods.getOneEquipment(equipmentId).call({ from: accounts[0] });
+            if (oneEquipment) setEquipment(oneEquipment);
+        } catch (err) {
+            alert(err); 
+        }
+    };
+
+    useEffect(() => {
+        getEquipment();
+    }, [accounts, contract]);
 
     return (
         <Stack direction="row" justifyContent="space-between" spacing={2}>
@@ -31,10 +45,9 @@ function EquipmentSummary({equipmentId}) {
 
                 <Typography variant="body" color="text.secondary">
                     Fabricant : {equipment.manufacturer}<br></br>
-                    Propriétaire : {equipmentDetails.owner}<br></br>
+                    Propriétaire : {equipment.owner}<br></br>
                     Modèle : {equipment.model}<br></br>
                     Numéro de série : {equipment.id}<br></br>
-                    Détails : {equipmentDetails.description}
                 </Typography>
             </Stack>
 
@@ -43,7 +56,7 @@ function EquipmentSummary({equipmentId}) {
                 <CardMedia
                     component="img"
                     height="200"
-                    image= {equipmentDetails.photo}
+                    image= {grue1}
                     alt="équipement"
                 />
             </Card>
@@ -55,12 +68,10 @@ function EquipmentSummary({equipmentId}) {
 
 function EquipmentOperations({equipmentId}) {
 
-    const ops = operations.filter(op => op.equipmentId === equipmentId);
-
     return (
         <Stack>
             <Typography variant="h4" gutterBottom>Opérations</Typography>
-            <EquipmentOperationsList operations={ops}/>
+            <EquipmentOperationsList operations={operations}/>
         </Stack>
     )
 }
@@ -77,25 +88,59 @@ const modalStyle = {
   p: 4,
 };
 
-function InstallModal({ open, setOpen, equipmentId }) {
+function InstallModal({ open, setOpen, equipmentId, assembly }) {
 	const { state: { contract, accounts } } = useEth();
-	const [part, setPart] = useState('');
+	const [partId, setPartId] = useState(0);
 	const handleClose = () => setOpen(false);
+    const [partsNotInAssembly, setPartsNotInAssembly] = useState([]);
+
+    const getPartsNotInAssembly = async () => {
+        try {
+            let numberOfParts = await contract?.methods._tokenIds().call({ from: accounts[0] });
+            let parts= [];
+            console.log(assembly, numberOfParts);
+            for (let i=1; i<= numberOfParts; i++) {
+                if (assembly === null || !assembly.partsIds.includes(i)) {
+                    const partOwner = await contract?.methods.ownerOf(i).call({ from: accounts[0] });
+                    if (partOwner === accounts[0]) {
+                        const tokenURI = await contract?.methods.tokenURI(i).call({ from: accounts[0] });
+                        const part = JSON.parse(tokenURI);
+        
+                        const partListingInfo = await contract?.methods.parts(i).call({ from: accounts[0] });
+                        part.isListed = partListingInfo.isListed;
+                        part.listedPrice = partListingInfo.listedPrice;
+                        part.id = i;
+        
+                        parts.push(part);
+                        console.log(part);
+                    }
+                }
+            }
+            setPartsNotInAssembly(parts);
+        } catch (err) {
+            alert(err); 
+        }
+    };
+
+    useEffect(() => {
+        getPartsNotInAssembly();
+    }, [accounts, contract]);
 
 
 	const handleInstallPart = async() => {
         try {
-            //await contract.methods.installPartOnEquipment(part, equipmentId).call({ from: accounts[0] });
-            //await contract.methods.installPartOnEquipment(part, equipmentId).send({ from: accounts[0] });
-            await contract.methods.addPartToAssembly(equipmentId, part).call({ from: accounts[0] });
-            await contract.methods.addPartToAssembly(equipmentId, part).call({ from: accounts[0] });
+            await contract.methods.addPartToAssembly(equipmentId, partId).call({ from: accounts[0] });
+            await contract.methods.addPartToAssembly(equipmentId, partId).call({ from: accounts[0] });
+            setOpen(false);
         } catch (err) {
             alert(err);
         }
     };
 
 	const handlePartChange = (e) => {
-		setPart(e.target.value);
+        console.log(e.target.value);
+		setPartId(e.target.value);
+        console.log(partId);
 	};
 
 	return(
@@ -115,14 +160,14 @@ function InstallModal({ open, setOpen, equipmentId }) {
                         select
 						label="Part to select"
 						variant="outlined"
-						value={part}
+						value={partId}
 						onChange={handlePartChange}
 						required
                         sx={{width: "100%"}}
 					>
-                        {parts.map((part) => (
+                        {partsNotInAssembly.map((part) => (
                             <MenuItem key={part.id} value={part.id}>
-                                {part.id} - {part.category} - {part.reference}
+                                {part.serialNumber} - {part.category} - {part.model}
                             </MenuItem>
                         ))}
                     </TextField>
@@ -137,21 +182,50 @@ function Parts({equipmentId}) {
 	const { state: { contract, accounts } } = useEth();
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
+    const [assembly, setAssembly] = useState(null);
+    const [parts, setParts] = useState([]);
 
-    const partsIds = assemblies.find(assem => assem.equipmentId === equipmentId).parts;
-    const partsArray = parts.filter( p => partsIds.includes(p.id) )
+    const getParts = async () => {
+        try {
+            let oneAssembly = await contract?.methods.getOneAssembly(equipmentId).call({ from: accounts[0] });
+            if (oneAssembly) {
+                setAssembly(oneAssembly);
+                const partIds = oneAssembly.partsIds;
+                let parts= [];
+                for (let i=1; i<= partIds.length; i++) {
+                    const tokenURI = await contract?.methods.tokenURI(i).call({ from: accounts[0] });
+                    const part = JSON.parse(tokenURI);
+
+                    const partListingInfo = await contract?.methods.parts(i).call({ from: accounts[0] });
+                    part.isListed = partListingInfo.isListed;
+                    part.listedPrice = partListingInfo.listedPrice;
+
+                    parts.push(part);
+                }
+                setParts(parts);
+            }
+        } catch (err) {
+            alert(err); 
+        }
+    };
+
+    useEffect(() => {
+        getParts();
+    }, [accounts, contract]);
 
     return (
         <Stack>
             <Typography variant="h4" gutterBottom>Pièces certifiées</Typography>
             <Stack spacing={2}> 
-                <PartsTable parts={partsArray} />
+                <PartsTable parts={parts} />
                 <Stack direction="row" spacing={2}>
                     <Button variant="contained" onClick={handleOpen} endIcon={<AddCircleIcon />}>Install a part</Button>
                     <InstallModal
                         open={open}
                         setOpen={setOpen}
                         equipmentId={equipmentId}
+                        parts={parts}
+                        assembly={assembly}
                     ></InstallModal>
                     <Link to="/explore" style={{ textDecoration: 'none' }}>
                         <Button variant="contained" endIcon={<ShoppingCartIcon />}>Buy a part</Button>

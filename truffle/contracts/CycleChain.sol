@@ -80,6 +80,20 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     
     // ::::::::::::: GETTERS ::::::::::::: //
 
+    function getOneEquipment(string memory _serialNumber) public view returns (Equipment memory) {
+        Equipment memory equipment;
+
+        equipment = equipments[_serialNumber];
+        return equipment;
+    }
+
+    function getOneAssembly(string memory _serialNumber) public view returns (Assembly memory) {
+        Assembly memory oneAssembly;
+
+        oneAssembly = assemblies[_serialNumber];
+        return oneAssembly;
+    }
+
     function getAllEquipments() public view returns (Equipment[] memory) {
         uint len = equipmentsSerialNumbers.length;
         Equipment[] memory equipmentsArray = new Equipment[](len);
