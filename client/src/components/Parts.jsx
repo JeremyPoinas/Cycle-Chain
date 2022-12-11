@@ -71,67 +71,66 @@ export default function Portfolio() {
   };
 
   return (
-      <Box sx={{ width: '100%', maxWidth: 2000, p:5 }}>
+      <Stack spacing={2} padding={5}>
 
-          <Box sx={{ m:5 }} alignItems="center">
-            <Button variant="contained" onClick={handleOpen} endIcon={<AddCircleIcon />}>Create a new Part</Button>
-            <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Box sx={modalStyle}>
-                <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 2 }}>
-                  Please enter the part information:
-                </Typography>
-                <Stack spacing={2} direction="column" alignItems="center">
-                  <TextField 
-                    id="producerAddress"
-                    label="Producer address"
-                    variant="outlined"
-                    value={partToAdd.producerAddress}
-                    onChange={handlePartToAddChange}
-                    helperText="Enter a Polygon address"
-                    required
-                  />
-                  <TextField 
-                    id="category"
-                    label="Part Category"
-                    variant="outlined"
-                    value={partToAdd.category}
-                    onChange={handlePartToAddChange}
-                    required
-                  />
-                  <TextField 
-                    id="model"
-                    label="Part model"
-                    variant="outlined"
-                    value={partToAdd.model}
-                    onChange={handlePartToAddChange}
-                    required
-                  />
-                  <TextField 
-                    id="partId"
-                    label="Part serial number"
-                    variant="outlined"
-                    value={partToAdd.partId}
-                    onChange={handlePartToAddChange}
-                    required
-                  />
-                  <Button variant="contained" onClick={createPart}>Create</Button>
-                </Stack>
-              </Box>
-            </Modal>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={modalStyle}>
+            <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 2 }}>
+              Please enter the part information:
+            </Typography>
+            <Stack spacing={2} direction="column" alignItems="center">
+              <TextField 
+                id="producerAddress"
+                label="Producer address"
+                variant="outlined"
+                value={partToAdd.producerAddress}
+                onChange={handlePartToAddChange}
+                helperText="Enter a Polygon address"
+                required
+              />
+              <TextField 
+                id="category"
+                label="Part Category"
+                variant="outlined"
+                value={partToAdd.category}
+                onChange={handlePartToAddChange}
+                required
+              />
+              <TextField 
+                id="model"
+                label="Part model"
+                variant="outlined"
+                value={partToAdd.model}
+                onChange={handlePartToAddChange}
+                required
+              />
+              <TextField 
+                id="partId"
+                label="Part serial number"
+                variant="outlined"
+                value={partToAdd.partId}
+                onChange={handlePartToAddChange}
+                required
+              />
+              <Button variant="contained" onClick={createPart}>Create</Button>
+            </Stack>
           </Box>
+        </Modal>
 
-          <Divider />
 
-          <Box sx={{ m:5 }}>
-              <Typography variant="h4" gutterBottom>Parts produced</Typography>
-              <PartsTable parts={parts}/>
-          </Box>
-      </Box>
+        <Typography variant="h4" gutterBottom>Parts produced</Typography>
+        <PartsTable parts={parts}/>
+
+        <Stack direction="row">
+          <Button variant="contained" onClick={handleOpen} endIcon={<AddCircleIcon />}>Create a new Part</Button>
+        </Stack>
+              
+      </Stack>
           
   )
 }
