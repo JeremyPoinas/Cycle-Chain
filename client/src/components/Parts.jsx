@@ -50,7 +50,6 @@ export default function Portfolio() {
 
   // Add a new proposal and update the proposals state
   const createPart = async () => {
-    console.log(partToAdd);
     if (partToAdd.producerAddress === '' || partToAdd.category === '' || partToAdd.model === '' || partToAdd.partId === '') {
       alert('Please fill all the fields.');
     } else {

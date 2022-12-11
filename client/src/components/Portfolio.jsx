@@ -28,7 +28,6 @@ export default function Portfolio() {
 
                 parts.push(part);
             }
-            console.log(parts);
             setParts(parts);
         } catch (err) {
             alert(err); 

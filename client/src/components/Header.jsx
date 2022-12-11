@@ -52,13 +52,13 @@ function Header() {
 
     useEffect(() => {
       if (isProducer) {
-        setPages(['explore', 'my portfolio', 'update equipment', 'parts', 'about']);
+        setPages(['explore', 'my portfolio', 'parts', 'about']);
       }
       else if (isOwner) {
         setPages(['manage profiles']);
       }
       else if (accounts && !isOwner && !isProducer) {
-        setPages(['explore', 'my portfolio', 'update equipment', 'about']);
+        setPages(['explore', 'my portfolio', 'about']);
       }
       else if (!accounts) {
         setPages(['about']);

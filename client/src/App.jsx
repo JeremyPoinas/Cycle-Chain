@@ -38,7 +38,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Portfolio />} />
             <Route path="/my-portfolio" element={<Portfolio />} />
-            <Route path="/update-equipment" element={<EquipmentDetails equipmentId={"62038"}/>} />
             <Route path="/equipment/:equipmentId" element={<EquipmentDetails/>} />
             <Route path="/parts" element={<Parts />} />
             <Route path="/part/:partId" element={<PartDetails/>} />
