@@ -6,7 +6,7 @@ node_modules
 .pnp.js
 
 # Production
-#/client/src/contracts
+/client/src/contracts
 build
 
 # Testing
