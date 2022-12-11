@@ -100,6 +100,12 @@ export default function Portfolio() {
         await contract.methods.createPart(partToAdd.producerAddress, partURI).send({ from: accounts[0] });
         setOpen(false);
         getMintedParts();
+        setPartToAdd({
+          partId: '',
+          model: '',
+          producerAddress: '',
+          category: '',
+        });
       } catch (err) {
         alert(err);
       }
