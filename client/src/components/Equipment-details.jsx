@@ -129,9 +129,10 @@ function Parts({equipmentId}) {
                         partAssembly={partAssembly}
                         getParts={getParts}
                     ></InstallModal>
+                    {/*
                     <Link to="/explore" style={{ textDecoration: 'none' }}>
                         <Button variant="contained" endIcon={<ShoppingCartIcon />}>Buy a part</Button>
-                    </Link>
+                    </Link>*/}
                 </Stack>
             </Stack>
         </Stack>
