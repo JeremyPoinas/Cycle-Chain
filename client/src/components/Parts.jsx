@@ -41,6 +41,7 @@ export default function Portfolio() {
         let uri = await contract?.methods.tokenURI(i).call({ from: accounts[0] });
         if (uri) {
           const uriObject = JSON.parse(uri);
+          uriObject.id = i;
             if(uriObject.minterAddress == accounts[0]) {
               mintedPartsArray.push(uriObject);
             }
