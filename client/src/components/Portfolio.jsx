@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import Stack from "@mui/material/Stack";
 import Typography from '@mui/material/Typography';
-import PartsTable from "./Parts-list";
+import { PartsTable } from "./Parts-list";
 import EquipmentsGrid from "./Equipments-grid";
 import { Divider } from "@mui/material";
 import useEth from "../contexts/EthContext/useEth";

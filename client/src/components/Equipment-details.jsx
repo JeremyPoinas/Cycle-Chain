@@ -66,6 +66,7 @@ function EquipmentSummary({equipmentId}) {
     )
 }
 
+/*
 function EquipmentOperations({equipmentId}) {
 
     return (
@@ -74,7 +75,7 @@ function EquipmentOperations({equipmentId}) {
             <EquipmentOperationsList operations={operations}/>
         </Stack>
     )
-}
+}*/
 
 const modalStyle = {
   position: 'absolute',
@@ -227,9 +228,10 @@ function Parts({equipmentId}) {
                         parts={parts}
                         assembly={assembly}
                     ></InstallModal>
+                    {/** 
                     <Link to="/explore" style={{ textDecoration: 'none' }}>
                         <Button variant="contained" endIcon={<ShoppingCartIcon />}>Buy a part</Button>
-                    </Link>
+                    </Link>*/}
                 </Stack>
             </Stack>
         </Stack>
@@ -246,8 +248,8 @@ export default function EquipmentDetails() {
             <EquipmentSummary equipmentId={equipmentId}/>
             <Divider />
             <Parts equipmentId={equipmentId}/>
-            <Divider />
-            <EquipmentOperations equipmentId={equipmentId}/>
+            {/*<Divider />*/}
+            {/*<<EquipmentOperations equipmentId={equipmentId}/>*/}
             
         </Stack>
     )
