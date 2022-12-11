@@ -183,9 +183,9 @@ export default function PartDetails() {
 				setOpen={setOpen}
 			></SellModal>
 
+			{/** 
 			<Divider />
-
-			<PartOperations partId={partId}/>
+			<PartOperations partId={partId}/>*/}
 
 		</Stack>
 	)
