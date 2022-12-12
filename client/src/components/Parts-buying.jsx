@@ -13,8 +13,8 @@ function PartCard({part, getPartsToBuy}) {
     const handleBuying = async() => {
         try {
             console.log(part);
-            await contract.methods.marketBuyPart(part.id).call({ from: accounts[0], value: part.listedPrice * 10**18});
-            await contract.methods.marketBuyPart(part.id).send({ from: accounts[0], value: part.listedPrice * 10**18});
+            await contract.methods.marketBuyPart(part.id).call({ from: accounts[0], value: part.listedPrice * 10**16});
+            await contract.methods.marketBuyPart(part.id).send({ from: accounts[0], value: part.listedPrice * 10**16});
             getPartsToBuy();
         } catch (err) {
             alert(err);
