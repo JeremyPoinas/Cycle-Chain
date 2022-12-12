@@ -11,7 +11,7 @@ contract('CycleChain', accounts => {
 
 
 
-  describe("Register equipment manufacturer", function () {
+  describe("REGISTER EQUIPMENT MANUFACTURER", function () {
 
     beforeEach(async function () {
       // Create a new contract instance
@@ -45,7 +45,24 @@ contract('CycleChain', accounts => {
     });
   });
 
-  describe("Create equipment / Get one equipment", function () {
+  describe("REMOVES EQUIPMENT MANUFACTURER", function () {
+
+    beforeEach(async function () {
+      // Create a new contract instance
+      ContractInstance = await CycleChain.new({from:owner});
+    });
+
+    it("Removes an equipment manufacturer", async() => {
+      // Register a manufacturer
+      await ContractInstance.registerEquipmentManufacturer(equipmentManufacturer, {from: owner});
+      expect(await ContractInstance.equipmentManufacturers.call(equipmentManufacturer)).to.be.true;
+      // Remove a manufacturer
+      await ContractInstance.removeEquipmentManufacturer(equipmentManufacturer, {from: owner});
+      expect(await ContractInstance.equipmentManufacturers.call(equipmentManufacturer)).to.be.false;
+    });
+  });
+
+  describe("CREATE EQUIPMENT / GET ONE EQUIPMENT", function () {
 
     let equipment;
 
@@ -112,7 +129,7 @@ contract('CycleChain', accounts => {
     });
   });
 
-  describe("Get all equipments", function () {
+  describe("GET ALL EQUIPMENTS", function () {
 
     let equipments;
 
@@ -150,7 +167,7 @@ contract('CycleChain', accounts => {
     });
   });
 
-  describe("Add part to assembly", function () {
+  describe("ADD PART TO ASSEMBLY", function () {
 
     let assembly;
 
@@ -215,7 +232,7 @@ contract('CycleChain', accounts => {
     });
   });
 
-  describe("Create a Part", function () {
+  describe("CREATE A PART", function () {
 
     let part;
 
@@ -267,9 +284,49 @@ contract('CycleChain', accounts => {
     it("should revert if the caller is not an equipment manufacturer", async () => {
       await expectRevert(ContractInstance.createPart(partManufacturer, "tokenURI", {from:client}), "You are not an equipment manufacturer.");
     });
+
+    it("Gets PartCreated event", async() => {
+      const findEvent = await ContractInstance.createPart(partManufacturer, "NFT URI 1", {from: equipmentManufacturer});
+      expectEvent(findEvent,"PartCreated", {NftId: new BN(1)});
+    });
   });
 
-  describe("Market buy a part", function () {
+  describe("LISTING", function () {
+
+    beforeEach(async function(){
+      // Create a new contract instance
+      ContractInstance = await CycleChain.new({from:owner});
+      await ContractInstance.registerEquipmentManufacturer(equipmentManufacturer, {from: owner});
+      await ContractInstance.createPart(partManufacturer, "NFT URI 1", {from: equipmentManufacturer});
+      await ContractInstance.listPart(new BN(1), new BN(100), {from: partManufacturer});
+    });
+
+    it("Lists a part", async() => {
+      const part = await ContractInstance.parts.call(1)
+      expect(part.isListed).to.be.true;
+      expect(part.listedPrice).to.be.bignumber.equal(new BN(100));
+    });
+
+    it("Updates listing price", async() => {
+      await ContractInstance.updateListingPrice(new BN(1), new BN(200), {from: partManufacturer});
+      const part = await ContractInstance.parts.call(1);
+      expect(part.listedPrice).to.be.bignumber.equal(new BN(200));
+    });
+
+    it("Delists a part", async() => {
+      await ContractInstance.delistPart(new BN(1), {from: partManufacturer});
+      const part = await ContractInstance.parts.call(1);
+      expect(part.isListed).to.be.false;
+    });
+
+    it("Gets PartListed event", async() => {
+        await ContractInstance.createPart(partManufacturer, "NFT URI 1", {from: equipmentManufacturer});
+        const findEvent = await ContractInstance.listPart(new BN(2), new BN(100), {from: partManufacturer});
+        expectEvent(findEvent,"partListed", {partId: new BN(2), price: new BN(100)});
+    });
+  });
+
+  describe("MARKET BUY A PART", function () {
 
     let part;
 
@@ -279,18 +336,18 @@ contract('CycleChain', accounts => {
       await ContractInstance.registerEquipmentManufacturer(equipmentManufacturer, {from:owner});
       await ContractInstance.createPart(partManufacturer, "tokenURI", {from:equipmentManufacturer});
       await ContractInstance.approve(ContractInstance.address, 1, {from:partManufacturer});
-      await ContractInstance.listPart(1, 100, {from:partManufacturer});
+      await ContractInstance.listPart(1, 2, {from:partManufacturer});
     });
 
     it("should change ownership", async () => {
-      const messageValue = 100 * 10**18;
+      const messageValue = 2 * 10**18;
       await ContractInstance.marketBuyPart(1, {from:client, value:messageValue});
       partOwner = await ContractInstance.ownerOf(1);
       expect(partOwner).to.be.equal(client);
     });
 
     it("should reset listing info", async () => {
-      const messageValue = 100 * 10**18;
+      const messageValue = 2 * 10**18;
       await ContractInstance.marketBuyPart(1, {from:client, value:messageValue});
       part = await ContractInstance.parts.call(1);
       expect(part.isListed).to.be.false;
@@ -298,13 +355,13 @@ contract('CycleChain', accounts => {
     });
 
     it("should revert if the message value is not equal the listing price", async () => {
-      const messageValue = 90 * 10**18;
+      const messageValue = 1 * 10**18;
       await expectRevert(ContractInstance.marketBuyPart(1, {from:client, value:messageValue}), "Message value is not equal to listed price");
     });
 
     it("should revert if the part is not listed", async () => {
       await ContractInstance.delistPart(1, {from:partManufacturer});
-      const messageValue = 90 * 10**18;
+      const messageValue = 2 * 10**18;
       await expectRevert(ContractInstance.marketBuyPart(1, {from:client, value:messageValue}), "This part is not listed.");
     });
   });
