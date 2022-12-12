@@ -52,7 +52,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     event PartCreated(uint NftId);
     event EquipmentManufacturerRegistered(address _address);
     event EquipmentManufacturerRemoved(address _address);
-    event PartInstalledOnEquipment(uint _partId, string _equipmentSerialNumber);
+    event PartInstalledOnEquipment(uint partId, string equipmentSerialNumber);
     event PartRemovedFromEquipment(uint partId, uint equipmentId);
     event EquipmentCreated(string equipmentId);
     event partListed(uint partId, uint price);
@@ -62,14 +62,6 @@ contract CycleChain is ERC721URIStorage, Ownable  {
       // In order to have the index of parts equal to the NFT ID, we need to fill the index 0 of parts
       Part memory part;
       parts.push(part);
-
-      // Create mock equipments
-      createEquipment('TD1', 'Grue',        0x0Aa9547EE37E6B9064f9FB95cd2E8864DC6D3569, 'MODEL_123');
-      createEquipment('TD2', 'Grue',        0x0Aa9547EE37E6B9064f9FB95cd2E8864DC6D3569, 'MODEL_123');
-      createEquipment('TD3', 'Pelleteuse',  0x0Aa9547EE37E6B9064f9FB95cd2E8864DC6D3569, 'MODEL_123');
-      createEquipment('JP1', 'Grue',        0x1e3CdC405728560eebC4ab093D9c461b36E28Aa3, 'MODEL_123');
-      createEquipment('JP2', 'Pelleteuse',  0x1e3CdC405728560eebC4ab093D9c461b36E28Aa3, 'MODEL_123');
-      createEquipment('JP3', 'Pelleteuse',  0x1e3CdC405728560eebC4ab093D9c461b36E28Aa3, 'MODEL_123');
     }
 
     /// @notice Check if the msg.sender is an equipment manufacturer
@@ -136,13 +128,12 @@ contract CycleChain is ERC721URIStorage, Ownable  {
       emit EquipmentManufacturerRemoved(_producer);
     }
 
-    /// TODO PUT BACK MODIFIER onlyEquipmentManufacturers
     /// @notice Adds an equipment to the equipments mapping and update the equipmentsSerialNumbers array
     /// @param _serialNumber Serial Number
     /// @param _category Category
     /// @param _owner The owner of the equipment (company name)
     /// @param _model Equipment model
-    function createEquipment(string memory _serialNumber, string memory _category, address _owner, string memory _model) public {
+    function createEquipment(string memory _serialNumber, string memory _category, address _owner, string memory _model) public onlyEquipmentManufacturers {
       require(equipments[_serialNumber].isValue == false, "This equipment already exists.");
       Equipment memory eq;
       eq.serialNumber = _serialNumber;
@@ -170,8 +161,7 @@ contract CycleChain is ERC721URIStorage, Ownable  {
     /// @param _partId The id of the part to be installed
     function addPartToAssembly(string memory _equipmentSerialNumber, uint _partId) external {
       require(ownerOf(_partId) == msg.sender, "You do not possess this part");
-      require(equipments[_equipmentSerialNumber].isValue == true, "You do not have this equipment");
-      require(parts.length - 1 >= _partId, "You do not have this part");
+      require(equipments[_equipmentSerialNumber].owner == msg.sender, "You do not have this equipment");
       require(checkIfPartExistsInAssembly(_equipmentSerialNumber, _partId) == false, "Part already installed in assembly");
 
       assemblies[_equipmentSerialNumber].equipmentSerialNumber = _equipmentSerialNumber;
