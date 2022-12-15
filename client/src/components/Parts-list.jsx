@@ -14,10 +14,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Stack } from "@mui/system";
 
 const columns = [
-    { id: 'category', label: 'Catégorie', minWidth: 100 },
-    { id: 'producerAddress', label: 'Fabricant', minWidth: 100 },
-    { id: 'model', label: 'Référence', minWidth: 100 },
-    { id: 'serialNumber', label: 'Numéro de série', minWidth: 100 }
+    { id: 'category', label: 'Category', minWidth: 100 },
+    { id: 'producerAddress', label: 'Producer', minWidth: 100 },
+    { id: 'model', label: 'Model', minWidth: 100 },
+    { id: 'serialNumber', label: 'Serial Number', minWidth: 100 }
 ];
 
 
