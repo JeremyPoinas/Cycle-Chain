@@ -91,8 +91,8 @@ export default function PartsBuying() {
 
     return (
         <Stack p={5}>
-            <Typography variant="h4" sx={{ mb: 1.5 }}>Acheter une certification</Typography>
-            { partsToBuy.length > 0 ? <PartsGrid parts={partsToBuy} getPartsToBuy={getPartsToBuy} /> : <span>Aucune pièce en vente</span> }
+            <Typography variant="h4" sx={{ mb: 1.5 }}>Buy a certified part</Typography>
+            { partsToBuy.length > 0 ? <PartsGrid parts={partsToBuy} getPartsToBuy={getPartsToBuy} /> : <span>No part on sale</span> }
         </Stack>
     )
 }

@@ -65,7 +65,7 @@ export function EquipmentOperationsList({operations}) {
                     </List>
                 </Paper>
 
-                <Button variant="contained" endIcon={<CreateIcon />}>Ajouter</Button>
+                <Button variant="contained" endIcon={<CreateIcon />}>Add</Button>
 
             </Stack>
     )
@@ -85,7 +85,7 @@ export function PartOperationsList({operations}) {
                     </List>
                 </Paper>
 
-                <Button variant="contained" endIcon={<CreateIcon />}>Ajouter</Button>
+                <Button variant="contained" endIcon={<CreateIcon />}>Add</Button>
 
             </Stack>
     )

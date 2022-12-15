@@ -44,10 +44,10 @@ function EquipmentSummary({equipmentId}) {
                 </Typography>
 
                 <Typography variant="body" color="text.secondary">
-                    Fabricant : {equipment.manufacturer}<br></br>
-                    Propriétaire : {equipment.owner}<br></br>
-                    Modèle : {equipment.model}<br></br>
-                    Numéro de série : {equipment.serialNumber}<br></br>
+                    Producer : {equipment.manufacturer}<br></br>
+                    Owner : {equipment.owner}<br></br>
+                    Model : {equipment.model}<br></br>
+                    Serial Number : {equipment.serialNumber}<br></br>
                 </Typography>
             </Stack>
 
@@ -117,7 +117,7 @@ function Parts({equipmentId}) {
 
     return (
         <Stack>
-            <Typography variant="h4" gutterBottom>Pièces certifiées</Typography>
+            <Typography variant="h4" gutterBottom>Certified parts</Typography>
             <Stack spacing={2}> 
                 <PartsTable parts={parts} />
                 <Stack direction="row" spacing={2}>

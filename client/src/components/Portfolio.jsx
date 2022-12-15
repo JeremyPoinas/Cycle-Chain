@@ -46,14 +46,14 @@ export default function Portfolio() {
         <Stack spacing={5} m={5}>
 
             <Stack>
-                <Typography variant="h4" gutterBottom>Équipements</Typography>
+                <Typography variant="h4" gutterBottom>Equipments</Typography>
                 <EquipmentsGrid />
             </Stack>
 
             <Divider />
 
             <Stack>
-                <Typography variant="h4" gutterBottom>Pièces certifiées</Typography>
+                <Typography variant="h4" gutterBottom>Certified parts</Typography>
                 <PartsTable parts={ownerParts}/>
             </Stack>
 

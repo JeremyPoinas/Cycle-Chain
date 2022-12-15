@@ -7,8 +7,8 @@ export default function AddOperation() {
             <Stack p={5} spacing={2}>
 
                 <Stack direction="row" justifyContent="space-between">
-                    <Typography variant="h5">Déclarer une opération</Typography>
-                    <Button>Annuler</Button>
+                    <Typography variant="h5">Declare an operation</Typography>
+                    <Button>Cancel</Button>
                 </Stack>
 
                 <TextField required id="manufacturer" label="Constructeur"/>
